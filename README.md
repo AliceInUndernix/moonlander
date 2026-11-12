@@ -30,6 +30,7 @@ plover-dotterel/        the Plover plugin (version 1.5.0)
   tests/
 qmk/canary/             Moonlander firmware keymap (QMK, steno layer 5)
 docs/
+  commands-cheat-sheet.md  every command stroke: keys, movement, modifiers, punctuation, capitals
   rp-rules.md           how Dotterel differs from Lapwing
   lapwing-rules.md      the full Lapwing theory it builds on
 ```
