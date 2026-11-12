@@ -2,7 +2,7 @@
 
 Dotterel is a steno theory and dictionary for [Plover](https://www.openstenoproject.org/plover/), written for British English (RP pronunciation, British spelling with Oxford -ize). It is built on [Lapwing](https://lapwing.aerick.ca/) by Aerick: the same theory and syllable splits, with the vowels and briefs changed where RP sounds different from General American.
 
-It is written on a ZSA Moonlander running QMK, which talks to Plover over the Gemini PR protocol.
+It works with any steno keyboard that speaks the Gemini PR protocol, such as a ZSA Moonlander running QMK's steno feature.
 
 ## What's in it
 
@@ -28,7 +28,6 @@ plover-dotterel/        the Plover plugin (version 1.5.0)
     data/               word frequency, hyphenation, meanings, UK/US list
   dark-theme/           the dark theme plugin
   tests/
-qmk/canary/             Moonlander firmware keymap (QMK, steno layer 5)
 docs/
   commands-cheat-sheet.md  every command stroke: keys, movement, modifiers, punctuation, capitals
   rp-rules.md           how Dotterel differs from Lapwing
@@ -44,11 +43,9 @@ plover -s plover_plugins install ./plover-dotterel
 plover -s plover_plugins install ./plover-dotterel/dark-theme   # optional
 ```
 
-Restart Plover, then in Configure pick **System: Dotterel** and **Machine: Gemini PR** (the Moonlander's serial port). The plugin also installs `plover-auto-reconnect-machine`; tick it once in Configure > Plugins so Plover reconnects if the keyboard drops.
+Restart Plover, then in Configure pick **System: Dotterel** and **Machine: Gemini PR** (your keyboard's serial port). The plugin also installs `plover-auto-reconnect-machine`; tick it once in Configure > Plugins so Plover reconnects if the keyboard drops.
 
-## The keyboard
-
-`qmk/canary` is a full Moonlander keymap: a Canary letter layout on layer 0 and a steno layer on layer 5 (tap left thumb 3 to enter it, tap the big left thumb key to leave). It needs `STENO_ENABLE = yes` and `STENO_PROTOCOL = geminipr` (already set in `rules.mk`) and is built on optozorax's keymap libraries.
+## Keys
 
 Steno order: `# S T K P W H R A O * E U F R P B L G T S D Z`.
 

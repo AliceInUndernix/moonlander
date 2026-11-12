@@ -40,7 +40,7 @@ SUFFIX_KEYS = ("-Z", "-D", "-S", "-G")  # tried in this order (Lapwing's)
 
 
 # 5. Which signal from the Moonlander is which key. The Moonlander speaks
-#    Gemini PR (qmk/canary/keymap.c, layer 5). Left: our key, right: the
+#    Gemini PR. Left: our key, right: the
 #    signal. "no-op" signals do nothing: #3 and #5 are the two inner thumb
 #    keys, the rest are number-bar signals the Moonlander never sends. Plover
 #    needs every signal listed somewhere, or it stops with an error.

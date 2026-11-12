@@ -316,11 +316,3 @@ Initials with a full stop: `AFPLT` a., `A*FPLT` A., `PW-FPLT` b., `PW*FPLT` B. a
 | Switch last word between UK and US spelling | `#SU` |
 | Raw mode on / off (see the raw steno) | `RA*U` |
 | The Builder window | Ctrl+B in Plover's window |
-
----
-
-## 11. On the Moonlander
-
-- Tap **left thumb 3** to switch to the steno layer; tap the **big left thumb key** to go back to typing.
-- `#` is where the upper S used to be; there is only one S (the lower one).
-- All four `*` keys are the same star.
