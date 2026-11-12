@@ -14,6 +14,25 @@ DATA = os.path.join(os.path.dirname(__file__), "data")
 
 _cache = {}
 
+# Dotterel writes typographic punctuation: ’ in words (don’t, o’clock),
+# “ ” and ‘ ’ for quotes, … for an ellipsis. Word lists and typed texts
+# often have the straight ones (don't, "...").
+_PLAIN = str.maketrans({"’": "'", "‘": "'", "“": '"', "”": '"'})
+
+
+def plain(text):
+    """don’t -> don't, “hi” -> "hi", … -> ... (for comparing and word lists)."""
+    return (text or "").translate(_PLAIN).replace("…", "...")
+
+
+def curly(word):
+    """don't -> don’t: a word as the Dotterel dictionaries write it.
+
+    Only plain words: a translation with {commands} is left as it is."""
+    if not word or "{" in word or "=" == word[:1]:
+        return word
+    return word.replace("'", "’")
+
 
 def _lines(name):
     """The words of a data file, without # comment lines."""
@@ -38,6 +57,7 @@ def rank(word):
     table = _cache["rank"]
     if not word:
         return None
+    word = plain(word)
     return table.get(word) or table.get(word.lower())
 
 
@@ -60,6 +80,7 @@ def lapwing_outlines(word):
     Lapwing's list is in -ise spelling, so realize also finds realise.
     """
     table = _lapwing()
+    word = plain(word)
     for w in (word, word.lower(), word.replace("iz", "is"), word.lower().replace("iz", "is")):
         if w in table:
             return table[w]

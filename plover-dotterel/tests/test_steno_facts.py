@@ -183,3 +183,34 @@ def test_every_plan_is_undoable(tmp_path):
         apply(d, plan)
         apply(d, list(reversed(olds)))
         assert {p: dict(d[p].items()) for p in (base, names)} == before
+
+
+# Curly apostrophes ----------------------------------------------------------
+
+
+def test_apostrophe_is_curly_in_the_dictionary(tmp_path):
+    dicts, files = make(tmp_path, base={"TKOPBT": "don’t"})
+    # Asked with a straight apostrophe, found with the dictionary's curly one.
+    assert steno.outlines_for(dicts, "don't") == [(P("TKOPBT"), files[0])]
+    assert steno.clash(dicts, P("TKOPBT"), "don't") is None
+    # A word saved from the Builder or Quick add gets ’.
+    assert steno.plan_save(files[0], P("TKO*PBT"), "won't") == [(files[0], P("TKO*PBT"), "won’t")]
+    assert steno.plan_take(dicts, files[0], P("KAT"), "can't")[0][2] == "can’t"
+
+
+def test_shipped_dictionaries_are_typographic():
+    """Words use ’; quote outlines write “ ” ‘ ’; # + the outline is straight."""
+    folder = os.path.join(HERE, "..", "plover_dotterel", "dictionaries")
+    for name in os.listdir(folder):
+        if not name.endswith(".json"):
+            continue
+        with open(os.path.join(folder, name), encoding="utf-8") as f:
+            d = json.load(f)
+        straight = {k for k, v in d.items() if "'" in v}
+        assert straight <= {"#KR-RG", "#KR*RG"}, (name, sorted(straight)[:5])
+        assert "..." not in "".join(d.values()), name
+    with open(os.path.join(folder, "dotterel-punctuation.json"), encoding="utf-8") as f:
+        p = json.load(f)
+    assert (p["KW-GS"], p["KW*GS"], p["KR-RG"], p["KR*RG"]) == ("{~|“^}", "{^~|”}", "{~|‘^}", "{^~|’}")
+    assert (p["#KW-GS"], p["#KW*GS"], p["#KR-RG"], p["#KR*RG"]) == ('{~|"^}', '{^~|"}', "{~|'^}", "{^~|'}")
+    assert p["PH-RB"] == "{^}—{^}" and p["TPH-RB"] == "{^}–{^}" and p["SKW-BGS"] == "{^}…{-|}"

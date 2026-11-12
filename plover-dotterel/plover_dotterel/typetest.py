@@ -16,6 +16,8 @@ are worked out the way Monkeytype does:
 import math
 import time
 
+from .words import plain
+
 
 def kogasa(cov):
     """Monkeytype's consistency: 100 for an even speed, less for uneven."""
@@ -26,7 +28,9 @@ class Test:
     """One test. Call update(field text) on every change of the field."""
 
     def __init__(self, words, seconds=None, clock=time.monotonic):
-        self.words = list(words)          # the target, word by word
+        # Curly and straight quotes count as the same: Plover writes don’t
+        # and “ ”, a text may have don't and " ".
+        self.words = [plain(w) for w in words]  # the target, word by word
         self.target = " ".join(self.words)
         self.seconds = seconds            # time mode: a limit; None = words mode
         self.clock = clock
@@ -46,7 +50,7 @@ class Test:
         if self.end is not None:
             return True
         # Plover puts its space BEFORE a word: the first one is not yours.
-        text = text.lstrip(" ")
+        text = plain(text).lstrip(" ")
         now = self.clock()
         if text and self.start is None:
             self.start = now

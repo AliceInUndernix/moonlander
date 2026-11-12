@@ -25,7 +25,7 @@ except ImportError:  # Plover 4
 
 from plover.gui_qt.add_translation_widget import AddTranslationWidget
 
-from . import steno
+from . import steno, words
 
 WORDS_DICTIONARY = "dotterel-base.json"
 NAMES_DICTIONARY = "dotterel-proper-nouns.json"
@@ -260,6 +260,7 @@ class QuickAdd(QDialog):
             self.info.show()
             return
         self.add._unfocus()  # the engine back to normal before it changes
+        word = words.curly(word)  # don't -> don’t, as the dictionaries have it
         plan = [(path, o, word) for o in outlines]
         builder = _open_builder()
         if builder is not None:

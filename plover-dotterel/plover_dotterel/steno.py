@@ -116,6 +116,7 @@ def outlines_for(dicts, word):
 
     Outlines hidden by a higher dictionary are left out: they don't work.
     """
+    word = words.curly(word)  # don't -> don’t, as the dictionaries have it
     out = []
     for key in dicts.reverse_lookup(word):
         value, path = writes(dicts, key)
@@ -127,6 +128,7 @@ def outlines_for(dicts, word):
 
 def clash(dicts, outline, word):
     """Clash(...) if the outline already writes another word, else None."""
+    word = words.curly(word)  # don't -> don’t, as the dictionaries have it
     value, path = writes(dicts, outline)
     if value is None or value == word:
         return None
@@ -197,6 +199,7 @@ def _fold(base, key):
 
 def from_parts(dicts, word, limit=6):
     """[(outline, 'walk + ing')] using outlines and affixes you already have."""
+    word = words.curly(word)  # cat's -> cat’s, as the dictionaries have it
     suffixes, prefixes = _affixes(dicts)
     found = []
     low = word.lower()
@@ -256,6 +259,7 @@ Idea = namedtuple("Idea", "outline why taken")
 
 def suggestions(dicts, word, limit=8):
     """Ideas for a word's outline, best first: from parts, Lapwing, with *."""
+    word = words.curly(word)  # don't -> don’t, as the dictionaries have it
     ideas = []
     for outline, why in from_parts(dicts, word):
         ideas.append((outline, why))
@@ -292,12 +296,14 @@ def free_outline(dicts, word, avoid=()):
 
 def plan_save(path, outline, word):
     """No clash: just write it."""
+    word = words.curly(word)  # don't -> don’t, as the dictionaries have it
     return [(path, outline, word)]
 
 
 def plan_take(dicts, path, outline, word):
     """Take the outline: it writes your word, and leaves the other word in
     every dictionary (so the other word can't win it back from higher up)."""
+    word = words.curly(word)  # don't -> don’t, as the dictionaries have it
     c = clash(dicts, outline, word)
     changes = [(path, outline, word)]
     if c:
@@ -307,6 +313,7 @@ def plan_take(dicts, path, outline, word):
 
 def plan_move(dicts, path, outline, word, new_outline):
     """Take it, and give the old word new_outline (in its own dictionary)."""
+    word = words.curly(word)  # don't -> don’t, as the dictionaries have it
     c = clash(dicts, outline, word)
     changes = plan_take(dicts, path, outline, word)
     if c:
@@ -317,6 +324,7 @@ def plan_move(dicts, path, outline, word, new_outline):
 def plan_swap(dicts, path, outline, word):
     """Swap: your word takes the outline, the old word gets your word's
     current outline. None if your word has no outline to give."""
+    word = words.curly(word)  # don't -> don’t, as the dictionaries have it
     c = clash(dicts, outline, word)
     mine = [o for o in outlines_for(dicts, word) if o[0] != outline]
     if not c or not mine:

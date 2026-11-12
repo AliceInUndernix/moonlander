@@ -159,6 +159,16 @@ def test_tips(tmp_path):
     assert t.for_token("cat:")[1][0] == "#TPH-FPLT"
     steps = t.for_token('"cat"')
     assert steps[0][0] == "KW-GS" and steps[2][0] == "KW*GS"  # opening, closing quote
+    steps = t.for_token("“cat”")                         # curly quotes in the text too
+    assert steps[0][0] == "KW-GS" and steps[2][0] == "KW*GS"
+    assert t.for_token("'cat'")[0][0] == "KR-RG"
+
+
+def test_curly_and_straight_quotes_count_the_same():
+    c = Clock()
+    t = typetest.Test(["\"I", "don't", "know...\""], clock=c)
+    type_words(t, c, ["“I", "don’t", "know…”"])  # what Dotterel writes
+    assert t.end is not None and t.result()["acc"] == 100
 
 
 # The stroke log ---------------------------------------------------------------
