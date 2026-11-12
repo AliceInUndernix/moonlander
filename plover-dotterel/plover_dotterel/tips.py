@@ -17,12 +17,14 @@ import re
 
 from . import steno
 
-LEAD = re.compile(r"^([\"'(\[]*)(.*?)([\"').,;:!?\]]*)$")
+LEAD = re.compile(r"^([\"'“‘(\[]*)(.*?)([\"'”’).,;:!?\]…]*)$")
 # Punctuation after a word: glued to it, with a space after it as usual
 # ({:} or {^:}, never {^}:{^} which glues the next word on too, as in 10:30).
 TRAILING = ("{%s}", "{^%s}", "{^}%s", "{^~|%s}")
 # Punctuation before a word (an opening quote or bracket): glued to the next word.
 LEADING = ("{%s^}", "%s{^}", "{~|%s^}")
+# A straight quote in a text -> (opening, closing) curly quote.
+CURLY = {'"': ("“", "”"), "'": ("‘", "’"), "“": ("“", "“"), "”": ("”", "”"), "‘": ("‘", "‘"), "’": ("’", "’")}
 PUNCT_CAPS = ("{.}", "{!}", "{?}")
 
 
@@ -45,7 +47,14 @@ class Tips:
         key = ("p", ch, leading)
         if key not in self._cache:
             forms = LEADING if leading else TRAILING
-            self._cache[key] = _shortest(self.dicts, [f % ch for f in forms])
+            # Dotterel's quote outlines write curly quotes: “ ” ‘ ’ for " and '.
+            chars = [CURLY[ch][0 if leading else 1], ch] if ch in CURLY else [ch]
+            found = None
+            for c in chars:
+                found = _shortest(self.dicts, [f % c for f in forms])
+                if found:
+                    break
+            self._cache[key] = found
         return self._cache[key]
 
     def word(self, w):

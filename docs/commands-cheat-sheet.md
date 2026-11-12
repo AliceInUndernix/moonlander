@@ -137,6 +137,8 @@ Symbols with no stroke of their own (`$ + = * |` and so on) can be typed as Shif
 
 "Attach" means no space on that side. Marks that end a sentence capitalise the next word.
 
+Dotterel writes **typographic punctuation**: curly quotes “ ” ‘ ’, the apostrophe ’ in every word (don’t, it’s, o’clock, O’Neal), the ellipsis …, and dashes with no spaces (word—word, 1850–1899). The straight `'` and `"` that code and the shell need have their own strokes: `#` + the quote stroke.
+
 ### Sentence marks
 
 | Mark | Stroke | Spacing |
@@ -150,28 +152,44 @@ Symbols with no stroke of their own (`$ + = * |` and so on) can be typed as Shif
 | `:` colon | `STPH-FPLT` | attach left (also `#TPH-FPLT`) |
 | `;` semicolon | `STPH*FPLT` | attach left (also `STPH*FPL`, `#TPH*FPLT`) |
 | `…` ellipsis, ending | `SKW-BGS` | attach left, capital next |
-| `...` ellipsis, inside | `SW-BS` | attach left |
+| `…` ellipsis, inside | `SW-BS` | attach left |
 | `s?` | `STPH-S` | adds `s` to the last word, then `?` (also `STH-S`) |
 | `.` decimal point | `P-P` | attach both (3.5) |
 | `:` in times | `KHR-PB` | attach both (10:30) (also `K-L`) |
 
 ### Quotes
 
+Every opening stroke writes an opening curly quote, every closing stroke a closing one.
+
 | Mark | Stroke | Spacing |
 |---|---|---|
-| `"` open | `KW-GS` | attach right |
-| `"` close | `KW*GS` | attach left |
-| `'` open | `KR-RG` | attach right |
-| `'` close | `KR*RG` | attach left |
+| `“` open double | `KW-GS` | attach right |
+| `”` close double | `KW*GS` | attach left |
+| `‘` open single | `KR-RG` | attach right |
+| `’` close single, or an apostrophe | `KR*RG` | attach left |
+| `, “` comma, then open double | `KWR-GS` | |
+| `, ‘` comma, then open single | `KWR*GS` | |
+| `“` open double, capital next | `KW-BGS` | spaced before |
+| `‘` open single, capital next | `KW*BGS` | spaced before |
+| `, “` comma, open double, capital next | `KWR-BGS` | |
+| `.”` full stop and close double, capital next | `KWR*BGS` | |
+| `“` open double, capital next | `SKWHA*FP` | attach right |
+
+**Straight quotes** (for code and the shell):
+
+| Mark | Stroke | Spacing |
+|---|---|---|
+| `"` open | `#KW-GS` | attach right |
+| `"` close | `#KW*GS` | attach left |
+| `'` open | `#KR-RG` | attach right |
+| `'` close | `#KR*RG` | attach left |
+
+**Backticks** (code, so always straight):
+
+| Mark | Stroke | Spacing |
+|---|---|---|
 | `` ` `` open | `KH-FG` | attach right |
 | `` ` `` close | `KH*FG` | attach left |
-| `, "` comma, then open quote | `KWR-GS` | |
-| `, '` comma, then open single quote | `KWR*GS` | |
-| `"` open quote, capital next | `KW-BGS` | spaced before |
-| `'` open single quote, capital next | `KW*BGS` | spaced before |
-| `, "` comma, open quote, capital next | `KWR-BGS` | |
-| `."` full stop and close quote, capital next | `KWR*BGS` | |
-| `"` attach right, capital next | `SKWHA*FP` | |
 
 ### Brackets
 
@@ -193,9 +211,9 @@ Symbols with no stroke of their own (`$ + = * |` and so on) can be typed as Shif
 | `--` | `H-PBSZ` | attach both |
 | `--` spaced | `H*PBZ` | |
 | `--` prefix | `H-PBZ` | attach right |
-| `–` en dash | `TPH-RB` | attach both (1990–2000) |
+| `–` en dash | `TPH-RB` | attach both (1850–1899) |
 | `–` en dash, spaced | `TPH*RB` | |
-| `—` em dash | `PH-RB` | attach both |
+| `—` em dash | `PH-RB` | attach both (word—word) |
 | `—` em dash, spaced | `PH*RB` | |
 | `/` | `OEU` | attach both |
 | `_` | `RUPBD` | attach both |

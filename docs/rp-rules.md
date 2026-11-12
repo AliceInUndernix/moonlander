@@ -18,6 +18,13 @@ The full Lapwing theory that Dotterel builds on is in [lapwing-rules.md](lapwing
 | E1: modern spellings | A few etymological spellings are written the modern way | fetus, fetal, fetid, sulfur (sulfate, sulfide), molt |
 | B1, B2: briefs | All of Lapwing's briefs stay, plus 35 new ones for common words | on `-PB`, today `T-D`, century `S-FP`, review `R-F`, release `R-S`, camera `K-R`, primary `P-R`, daily `TK-L`, interview `SPWRAOU`, secretary `S-R` |
 
+## Typographic punctuation
+
+- Words are written with the curly apostrophe ’ (don’t, it’s, o’clock, O’Neal), and so are the affixes (`AES` ’s, `*PBT` n’t).
+- The quote outlines write curly quotes: `KW-GS` “, `KW*GS` ”, `KR-RG` ‘, `KR*RG` ’, and so do the combined ones (`KWR-GS` , “). The straight `"` and `'` for code are `#` + the same outline (`#KW-GS`, `#KR*RG`).
+- The ellipsis is … (`SKW-BGS`, `SW-BS`); the em dash — (`PH-RB`) and en dash – (`TPH-RB`) attach on both sides.
+- The Builder, Quick add, Tips and the typing test treat ' and ’ (and " and “ ”) as the same, so a word typed with a straight apostrophe is found and saved with ’.
+
 ## Kept as in Lapwing
 
 - A short "u" spelled o stays O: come `KOPL`, son `SOPB`, love `HROF`.
