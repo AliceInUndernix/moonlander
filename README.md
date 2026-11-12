@@ -6,7 +6,7 @@ It works with any steno keyboard that speaks the Gemini PR protocol, such as a Z
 
 ## What's in it
 
-- **113,814 word outlines** plus 602 prefixes and suffixes, 15,787 proper nouns, punctuation, numbers, commands, fingerspelling, movement and modifier keys.
+- **113,815 word outlines** plus 602 prefixes and suffixes, 15,787 proper nouns, punctuation, numbers, commands, fingerspelling, movement and modifier keys.
 - **British by default, American on demand:** `#SU` switches the last word between UK and US spelling (colour / color).
 - **The Builder** (Ctrl+B in Plover, or in the toolbar), a window for growing your dictionary:
   - suggests outlines for a word from Lapwing and the Dotterel rules, and turns green when what you write matches one;
