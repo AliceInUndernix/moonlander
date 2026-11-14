@@ -28,6 +28,9 @@ plover-dotterel/        the Plover plugin (version 1.5.0)
     data/               word frequency, hyphenation, meanings, UK/US list
   dark-theme/           the dark theme plugin
   tests/
+tools/
+  boundary_clashes.py   finds outlines that swallow a phrase (AUL/PHOEFT
+                        would turn "all most" into "almost")
 docs/
   commands-cheat-sheet.md  every command stroke: keys, movement, modifiers, punctuation, capitals
   rp-rules.md           how Dotterel differs from Lapwing
