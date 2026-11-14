@@ -91,6 +91,12 @@ def corpus_tokens(paths):
         yield from TOKEN.findall(raw.lower().replace("’", "'"))
 
 
+def cost(outline):
+    """(strokes, keys): how much an outline costs to write."""
+    return (outline.count("/") + 1,
+            sum(ch not in "-/" for ch in outline))
+
+
 def splits(strokes, entries, max_pieces):
     """Every way to cut the strokes into 2+ pieces that are plain words."""
     n = len(strokes)
@@ -128,6 +134,10 @@ def main():
                     metavar="OUTLINE=WORD",
                     help="check an outline before adding it, e.g. "
                          "--try AUL/PHOEFT=almost (added on top)")
+    ap.add_argument("--all", action="store_true",
+                    help="also list clashes you'd never hit because one of "
+                         "the words has a shorter outline (go TKPW, not "
+                         "TKPWOE)")
     ap.add_argument("--min", type=int, default=1,
                     help="only list phrases seen at least this often")
     args = ap.parse_args()
@@ -140,6 +150,17 @@ def main():
         tried[outline] = word
     entries = {**entries, **tried}
     lapwing = load_lapwing()
+
+    # The outline you'd actually write for each word: fewest strokes, then
+    # fewest keys. A clash whose piece is a longer outline (go TKPWOE when
+    # go is TKPW) only happens if you write the long one, so it's rare.
+    best = {}
+    for outline, text in entries.items():
+        if outline.startswith("#"):
+            continue
+        c = cost(outline)
+        if text not in best or c < best[text][0]:
+            best[text] = (c, outline)
 
     # 1. Every outline that swallows a phrase, and the phrase it swallows.
     candidates = []  # (outline, word, pieces, phrase)
@@ -180,19 +201,24 @@ def main():
             continue
         wcount = word_n[word.lower()] if " " not in word else ""
         how = " + ".join(f"{k} {t}" for k, t in pieces)
+        shorter = [f"{t} {best[t][1]}" for k, t in pieces
+                   if cost(k) > best[t][0]]
+        if shorter and not args.all and not args.tries:
+            continue
+        usual = "no, you'd write " + ", ".join(shorter) if shorter else "yes"
         # "spacing": the word is the phrase without its spaces (onto / on
         # to), so a clash only costs a space. "other word": you get a
         # different word altogether (tumour for "to more").
         same = re.sub(r"[ \-']", "", word.lower()) == phrase.replace(" ", "")
         kind = "spacing" if same else "other word"
         in_lapwing = "yes" if outline in lapwing.get(word.lower(), ()) else ""
-        rows.append((count, phrase, outline, word, kind, wcount,
+        rows.append((count, phrase, outline, word, kind, usual, wcount,
                      in_lapwing, how))
     rows.sort(key=lambda r: (-r[0], r[1], r[2]))
 
     out = open(args.out, "w", encoding="utf-8") if args.out else sys.stdout
     out.write("phrase count\tphrase you meant\toutline\tPlover writes"
-              "\tkind\tword count\tLapwing's outline\tpieces\n")
+              "\tkind\tpieces are your usual outlines\tword count\tLapwing's outline\tpieces\n")
     for r in rows:
         out.write("\t".join(map(str, r)) + "\n")
     if args.out:
