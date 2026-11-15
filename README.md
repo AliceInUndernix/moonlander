@@ -1,57 +1,81 @@
-# Dotterel
+# Moonlander: "canary" layout
 
-Dotterel is a steno theory and dictionary for [Plover](https://www.openstenoproject.org/plover/), written for British English (RP pronunciation, British spelling with Oxford -ize). It is built on [Lapwing](https://lapwing.aerick.ca/) by Aerick: the same theory and syllable splits, with the vowels and briefs changed where RP sounds different from General American.
+A QMK layout for the ZSA Moonlander rev B: Canary letters, a steno
+layer for Plover (Gemini PR), a dwm layer, a tmux layer, a mouse layer,
+a function key layer and number-row punctuation combos. `layout.html`
+shows every layer as key squares (plain HTML, no scripts): open it in
+a browser or print it. `HANDOFF.md` has the background, the version
+history and what was tried and settled; the comment at the top of
+`canary/keymap.c` explains every layer.
 
-It works with any steno keyboard that speaks the Gemini PR protocol, such as a ZSA Moonlander running QMK's steno feature.
+The steno dictionaries for it are in a repo of their own, Dotterel:
+https://github.com/AliceInUndernix/dotterel
 
-## What's in it
+| Path | What it is |
+|---|---|
+| `canary/` | Current layout (version 97): `keymap.c`, `config.h`, `rules.mk`, `keymap.json`, `mcuconf.h`, and the libraries it needs |
+| `build.sh` | Sets up QMK, builds the firmware and flashes it |
+| `layout.html` | Every layer as key squares; updated with every layout change |
+| `qmk.patch` | Small patch to ZSA's QMK that the libraries need |
+| `knowledge/canary/` | The first working canary keymap, kept as reference |
+| `history/` | Earlier numbered drafts (75..86) |
+| `archive/` | optozorax's keymap and libraries as they were taken (below) |
 
-- **113,816 word outlines** plus 602 prefixes and suffixes, 15,787 proper nouns, punctuation, numbers, commands, fingerspelling, movement and modifier keys.
-- **British by default, American on demand:** `#SU` switches the last word between UK and US spelling (colour / color).
-- **The Builder** (Ctrl+B in Plover, or in the toolbar), a window for growing your dictionary:
-  - suggests outlines for a word from Lapwing and the Dotterel rules, and turns green when what you write matches one;
-  - shows the UK pronunciation and audio from the Cambridge Dictionary, the meaning (WordNet), the Russian translation, and the sound written in Russian letters;
-  - lists every outline in one table to search, edit, move or delete;
-  - has a Practice tab, a typing test like Monkeytype on any text or EPUB book with tips for the shortest outline, and a Stats tab read from Plover's stroke log.
-- **Quick add** (`TK*UPT`): a small window to give the last word an outline without leaving what you're writing.
-- **Raw mode** (`RA*U`): see raw steno instead of words.
-- **A dark theme** for Plover's windows, as its own small plugin.
+## Building and flashing
 
-## Layout
-
-```
-plover-dotterel/        the Plover plugin (version 1.5.0)
-  plover_dotterel/
-    system.py           keys, steno order, Gemini PR mapping, endings
-    dictionaries/       every dictionary Plover loads
-    builder.py ...      the Builder, Quick add and their helpers
-    data/               word frequency, hyphenation, meanings, UK/US list
-  dark-theme/           the dark theme plugin
-  tests/
-docs/
-  commands-cheat-sheet.md  every command stroke: keys, movement, modifiers, punctuation, capitals
-  rp-rules.md           how Dotterel differs from Lapwing
-  lapwing-rules.md      the full Lapwing theory it builds on
+```sh
+git clone https://github.com/AliceInUndernix/moonlander
+cd moonlander
+./build.sh
 ```
 
-## Install
+Run it as yourself; it needs `git`, `curl`, `python3` (with venv),
+`make`, `tar` with xz, and `dfu-util` to flash. Everything goes into
+your home directory, in `QMK_DIR` (`${XDG_DATA_HOME:-~/.local/share}/qmk`
+unless you set it):
 
-In Plover's own Python (Plover > Plugins Manager can't install from a folder):
+| What | Where |
+|---|---|
+| ZSA's QMK source, `firmware25` branch, with `qmk.patch` applied | `$QMK_DIR/zsa_qmk` |
+| `qmk` command, in its own Python environment | `$QMK_DIR/venv` |
+| ARM compiler, Arm GNU Toolchain 14.2.rel1, always (Gentoo's gcc 16 built firmware that froze) | `$QMK_DIR/arm-gnu-toolchain` |
 
+Each run copies `canary/` into QMK as
+`keyboards/zsa/moonlander/keymaps/canary`, builds
+`zsa/moonlander/revb:canary` and puts `zsa_moonlander_revb_canary.bin`
+next to `build.sh` (git ignores it). The download steps are skipped once
+done. Then it flashes with `dfu-util`: when it says so, tap the far-left
+lower key (backlight layer) and then BOOT (the key next to Ctrl), or
+press the reset pin hole. It waits up to 2 minutes; if the keyboard
+doesn't show up, flash the .bin with Keymapp instead.
+
+```sh
+MOONLANDER_FLASH=no ./build.sh    # build only
+./build.sh flash                  # flash the last build (root is fine)
+LINK_DIR=~/bin ./build.sh         # also link qmk and arm-none-eabi-* there
 ```
-plover -s plover_plugins install ./plover-dotterel
-plover -s plover_plugins install ./plover-dotterel/dark-theme   # optional
-```
 
-Restart Plover, then in Configure pick **System: Dotterel** and **Machine: Gemini PR** (your keyboard's serial port). The plugin also installs `plover-auto-reconnect-machine`; tick it once in Configure > Plugins so Plover reconnects if the keyboard drops.
+Without a udev rule for the keyboard only root can reach it: then build
+as yourself with `MOONLANDER_FLASH=no` and run `./build.sh flash` as
+root. `dfu-suffix` (from `dfu-util`) adds a small DFU trailer to the
+.bin; without it the build still works and says so.
 
-## Keys
+### Libraries and the QMK patch
 
-Steno order: `# S T K P W H R A O * E U F R P B L G T S D Z`.
+The libraries in `canary/` are copies of optozorax's, unchanged
+(`archive/optozorax-moonlander.tar.gz` is his whole keymap at the commit
+below, sha256 `8aefffb90e10fbd63b660c9fa68fef881851e7c8d0491b83f4454030998de326`;
+its library directories are git submodules and come out empty):
 
-## Credits
+| Directory | From | Commit |
+|---|---|---|
+| `lang_shift/` | https://github.com/klavarog/lang_shift | `2a6f814` (2026-06-21) |
+| `combo/` (without the diagram images) | https://github.com/klavarog/combo | `c882759` (2026-06-21) |
+| `arbitrary_keycode/` | https://github.com/klavarog/arbitrary_keycode | `a3eb347` (2026-06-20) |
+| `color/`, `moonlander_leds.h`, `mcuconf.h`, `../qmk.patch` | https://github.com/optozorax/moonlander | `8b725d0` (2026-07-30) |
 
-- Lapwing theory and dictionaries: Aerick, MIT licence (`plover-dotterel/LICENSE-lapwing`).
-- Definitions: WordNet 3.0, Princeton University (`LICENSE-meanings`).
-- British hyphenation patterns: Dominik Wujastyk and Graham Toal (`LICENSE-hyphenation`).
-- UK/US spelling list: hyperreality/American-British-English-Translator, MIT (`LICENSE-uk-us-list`).
+`qmk.patch` changes ZSA's QMK in three places: key events can carry any
+keycode (needed by `arbitrary_keycode`, which the combo library uses to
+press keys), the RGB code ignores those events, and the audio state timer
+frequency can be set from `config.h`. `mcuconf.h` turns on the two extra
+timers the audio driver uses.
