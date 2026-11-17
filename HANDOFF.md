@@ -9,15 +9,15 @@ libraries come from. This file adds the background and the history.
 
 | Path | What it is |
 |---|---|
-| `canary/keymap.c` | **Latest layout (version 97)** |
-| `canary/config.h` | Latest config (version 97): debounce, RGB, audio, combo limits |
-| `canary/rules.mk` | Latest build features (version 97): steno, mouse keys, USB endpoints |
+| `canary/keymap.c` | **Latest layout (version 99)** |
+| `canary/config.h` | Latest config (version 99): debounce, RGB, audio, combo limits |
+| `canary/rules.mk` | Latest build features (version 99): steno, mouse keys, USB endpoints |
 | `knowledge/canary/` | The first working canary keymap, kept as reference |
 | `knowledge/inspiration.md` | Link to the inspiration: https://github.com/optozorax/moonlander |
 | `build.sh` | Sets up QMK, builds and flashes (see README.md) |
 | `history/` | Every earlier numbered draft (keymap 75..86, config 71/81..86, rules 1/81..86), unchanged |
 
-`history/` stops at version 86; versions 87 to 97 are in the version history
+`history/` stops at version 86; versions 87 to 99 are in the version history
 below, and in git: up to 97 in the dotfiles repo, where the layout
 lived until 2026-11-15 (`git log -- moonlander/canary` there), and
 from then on here.
@@ -129,8 +129,14 @@ suggest them again without asking:
   (Super+s), Shift+Stky on every tag (Super+Shift+s). Susp sends
   Super+Ctrl+Shift+z, dwm's new suspend shortcut, so Shift+Stky can't
   suspend.
-- **97 (latest):** Stky and TFlt swapped on the dwm layer's top row:
+- **97:** Stky and TFlt swapped on the dwm layer's top row:
   Stky is used far more than TFlt.
+- **98:** fingerspelling while * or # is held; dropped, back to 97.
+- **99 (latest):** dwm layer: Web, Mix and Top removed; Lock and Susp
+  on the left pinky (home, bottom), Kill on the right pinky above Shot,
+  Tmux under Bar, and two scratchpads side by side: STmx (tmux,
+  Super+`) and Scr (plain st, Super+n, needs the dotfiles' dwm from
+  2026-11-17).
 - **config:** combo key count raised from 20 to 32 (by version 71); debounce
   raised to 12 ms against double letters (version 82). **rules:** unchanged in
   substance since the first numbered version (rules_1).

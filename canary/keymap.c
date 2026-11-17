@@ -2,7 +2,8 @@
  * ==========================================================================
  *  ZSA Moonlander (rev B), keymap "canary"
  *  Canary letter layout, built on optozorax's keymap libraries.
- *  Version 97 (the latest; earlier drafts were numbered 75..96).
+ *  Version 99 (the latest; earlier drafts were numbered 75..97, and 98
+ *  was dropped).
  * ==========================================================================
  *
  * HOW TO READ THIS FILE
@@ -293,13 +294,11 @@ enum custom_keycodes {
 #define D_TERM  DWM_MOD_SFT(KC_ENT)      // terminal, st (Super+Shift+Enter)
 #define D_ZOOM  DWM_MOD(KC_ENT)          // focused window to/from master (Super+Enter)
 #define D_RUN   DWM_MOD(KC_P)            // dmenu launcher (Super+p)
-#define D_SCRT  DWM_MOD(KC_GRV)          // scratchpad terminal on/off (Super+`)
+#define D_SCRT  DWM_MOD(KC_GRV)          // scratchpad with tmux on/off (Super+`)
+#define D_SCRN  DWM_MOD(KC_N)            // scratchpad, plain st, on/off (Super+n; v99)
 #define D_KILL  DWM_MOD_SFT(KC_C)        // close the window (Super+Shift+c), no Shift needed
 #define D_TMUX  DWM_MOD(KC_X)            // tmux: attach to the last session, or start one (Super+x;
                                          //   Shift: always a new session)
-#define D_WEB   DWM_MOD(KC_W)            // IceCat (Super+w; Shift: Ungoogled Chromium)
-#define D_MIX   DWM_MOD(KC_A)            // wiremix sound mixer (Super+a)
-#define D_TOP   DWM_MOD(KC_ESC)          // btop (Super+Escape)
 #define D_LOCK  DWM_MOD_SFT(KC_L)        // lock the screen, slock (Super+Shift+l)
 #define D_SUSP  LCTL(LSFT(KC_Z))         // suspend (Super+Ctrl+Shift+z; version 96)
 // D_SHOT (plain Print, Flameshot's picker) is an own keycode in section 2,
@@ -649,10 +648,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * tag; Susp sends Super+Ctrl+Shift+z (dwm moved suspend off Super+
      * Shift+s so that Shift+Stky can't suspend).
      * Version 97: Stky and TFlt swapped (Stky is used far more often).
+     * Version 99: Web, Mix and Top removed. Lock and Susp on the left
+     * pinky, Kill on the right pinky above Shot, Tmux under Bar, and two
+     * scratchpads: STmx (tmux, Super+`) and Scr (plain st, Super+n).
      *
-     * top      Web  Flt  Tile Deck Mono Bar  --       TFlt Stky Mst+ Mon> Mon< Mst- Susp
-     * home     Kill Menu Tmux Scr  Term Lock --       --   Zoom Shrk Next Prev Grow Top
-     * bottom   Mix  All  Tag9 Tag8 Tag7 Tag6               Tag5 Tag4 Tag3 Tag2 Tag1 Shot
+     * top      --   Flt  Tile Deck Mono Bar  --       TFlt Stky Mst+ Mon> Mon< Mst- --
+     * home     Lock Menu STmx Scr  Term Tmux --       --   Zoom Shrk Next Prev Grow Kill
+     * bottom   Susp All  Tag9 Tag8 Tag7 Tag6               Tag5 Tag4 Tag3 Tag2 Tag1 Shot
      * lower    __   __   __   __   __   __          __   (held)
      * thumbs                  Shift __   --          __   __   __
      *   (__ = same as layer 0, so Ctrl and Alt still work; -- = nothing)
@@ -679,9 +681,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *   Tmux     st with tmux: attaches to the last session, or starts one
      *            if there is none (Super+x). With Shift: always a new
      *            session (Super+Shift+x)
-     *   Menu     dmenu (Super+p)                Scr   scratchpad terminal (Super+`)
-     *   Term     st (Super+Shift+Enter)         Web   IceCat (Super+w)
-     *   Mix      wiremix (Super+a)              Top   btop (Super+Escape)
+     *   Menu     dmenu (Super+p)                Term  st (Super+Shift+Enter)
+     *   STmx     scratchpad with tmux (Super+`)
+     *   Scr      scratchpad, plain st (Super+n; version 99)
      *   Shot     Flameshot picker (plain Print; Ctrl+A in it takes the whole screen)
      *   Lock     slock (Super+Shift+l)
      *   Susp     suspend (sends Super+Ctrl+Shift+z itself, no Shift needed;
@@ -696,7 +698,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *   Tag1..9  move the window to that tag    All   window on all tags
      *   Next Prev  move the window down / up the stack
      *   Mon< Mon>  send the window to that monitor
-     *   Web      Ungoogled Chromium instead of IceCat
      *   Tmux     a new tmux session
      *   Stky     pin the window on every tag
      * Ctrl versions of the tags (Super+Ctrl+1..9: show that tag as well)
@@ -704,9 +705,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
     [L_DWM] = LAYOUT_moonlander(
         _______, _______, _______, _______, _______, _______, _______,      _______, _______, _______, _______, _______, _______, _______,
-        D_WEB,   D_FLOT,  D_TILE,  D_DECK,  D_MONO,  D_BAR,   KC_NO,        D_TFLT,  D_STKY,  D_NMAI,  D_MONN,  D_MONP,  D_NMAD,  D_SUSP,
-        D_KILL,  D_RUN,   D_TMUX,  D_SCRT,  D_TERM,  D_LOCK,  KC_NO,        KC_NO,   D_ZOOM,  D_MSTS,  D_FOCN,  D_FOCP,  D_MSTG,  D_TOP,
-        D_MIX,   D_ALL,   D_TAG9,  D_TAG8,  D_TAG7,  D_TAG6,                D_TAG5,  D_TAG4,  D_TAG3,  D_TAG2,  D_TAG1,  D_SHOT,
+        KC_NO,   D_FLOT,  D_TILE,  D_DECK,  D_MONO,  D_BAR,   KC_NO,        D_TFLT,  D_STKY,  D_NMAI,  D_MONN,  D_MONP,  D_NMAD,  KC_NO,
+        D_LOCK,  D_RUN,   D_SCRT,  D_SCRN,  D_TERM,  D_TMUX,  KC_NO,        KC_NO,   D_ZOOM,  D_MSTS,  D_FOCN,  D_FOCP,  D_MSTG,  D_KILL,
+        D_SUSP,  D_ALL,   D_TAG9,  D_TAG8,  D_TAG7,  D_TAG6,                D_TAG5,  D_TAG4,  D_TAG3,  D_TAG2,  D_TAG1,  D_SHOT,
         _______, _______, _______, _______, _______, _______,               _______, _______, _______, _______, _______, _______,
                                             KC_LSFT, _______, KC_NO,        _______, _______, _______
     ),
@@ -780,8 +781,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *
      * Every key types Ctrl-b and then one of tmux's default keys (section
      * 3, "TMUX KEYS"), so tmux needs no setup for them. Each key sits in
-     * the same spot as the dwm key that does the nearest thing (Kill where
-     * dwm's Kill is, Cmd where dmenu is, Copy where Web is, and so on).
+     * the same spot as the dwm key that did the nearest thing in version
+     * 97 (Kill where dwm's Kill was, Cmd where dmenu is, Copy where Web
+     * was, and so on).
      *
      * top      Copy Lay  Tile Main Even Ren  --       --   Brk  Spl| Ses> Ses< Spl- Det
      * home     Kill Cmd  Ses  Pne> New  Last --       --   Zoom Left Down Up   Rght Pnes
