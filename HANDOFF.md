@@ -9,7 +9,7 @@ libraries come from. This file adds the background and the history.
 
 | Path | What it is |
 |---|---|
-| `canary/keymap.c` | **Latest layout (version 97)** |
+| `canary/keymap.c` | **Latest layout (version 98)** |
 | `canary/config.h` | Latest config (version 97): debounce, RGB, audio, combo limits |
 | `canary/rules.mk` | Latest build features (version 97): steno, mouse keys, USB endpoints |
 | `knowledge/canary/` | The first working canary keymap, kept as reference |
@@ -129,8 +129,13 @@ suggest them again without asking:
   (Super+s), Shift+Stky on every tag (Super+Shift+s). Susp sends
   Super+Ctrl+Shift+z, dwm's new suspend shortcut, so Shift+Stky can't
   suspend.
-- **97 (latest):** Stky and TFlt swapped on the dwm layer's top row:
+- **97:** Stky and TFlt swapped on the dwm layer's top row:
   Stky is used far more than TFlt.
+- **98 (latest):** steno: while * or # is held, a chord goes as soon
+  as a key pressed after the last chord comes up, so letters can be
+  fingerspelled (and digits written) without letting go of * each
+  time; keys still held (-P for capitals, #T for digits) stay in the
+  next chord. No key moved.
 - **config:** combo key count raised from 20 to 32 (by version 71); debounce
   raised to 12 ms against double letters (version 82). **rules:** unchanged in
   substance since the first numbered version (rules_1).
