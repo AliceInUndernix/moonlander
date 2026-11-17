@@ -2,7 +2,7 @@
  * ==========================================================================
  *  ZSA Moonlander (rev B), keymap "canary"
  *  Canary letter layout, built on optozorax's keymap libraries.
- *  Version 99 (the latest; earlier drafts were numbered 75..97, and 98
+ *  Version 100 (the latest; earlier drafts were numbered 75..97, and 98
  *  was dropped).
  * ==========================================================================
  *
@@ -651,18 +651,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * Version 99: Web, Mix and Top removed. Lock and Susp on the left
      * pinky, Kill on the right pinky above Shot, Tmux under Bar, and two
      * scratchpads: STmx (tmux, Super+`) and Scr (plain st, Super+n).
+     * Version 100: left-hand tags reversed to Tag6 Tag7 Tag8 Tag9 All, so
+     * each hand counts from its pinky (Tag1 right pinky, Tag6 left pinky)
+     * and the hardest keys, the inner index ones, get Tag5 and All.
      *
      * top      --   Flt  Tile Deck Mono Bar  --       TFlt Stky Mst+ Mon> Mon< Mst- --
      * home     Lock Menu STmx Scr  Term Tmux --       --   Zoom Shrk Next Prev Grow Kill
-     * bottom   Susp All  Tag9 Tag8 Tag7 Tag6               Tag5 Tag4 Tag3 Tag2 Tag1 Shot
+     * bottom   Susp Tag6 Tag7 Tag8 Tag9 All                Tag5 Tag4 Tag3 Tag2 Tag1 Shot
      * lower    __   __   __   __   __   __          __   (held)
      * thumbs                  Shift __   --          __   __   __
      *   (__ = same as layer 0, so Ctrl and Alt still work; -- = nothing)
      *
      * Shrk Next Prev Grow sit where the red layer has its arrows (Left Down
      * Up Right), like h j k l. The tags are on the bottom row like the red
-     * layer's digits, but counted from the right: Tag1 is the right pinky,
-     * All (0) the left pinky.
+     * layer's digits, but each hand counts from its pinky: Tag1 is the
+     * right pinky, Tag6 the left pinky, All (0) the left inner index key.
      *
      *   Tag1..9  go to tag 1..9 (Super+1..9)    All   view all tags (Super+0)
      *   Shrk Grow  master area smaller / bigger (Super+h / l)
@@ -707,7 +710,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______,      _______, _______, _______, _______, _______, _______, _______,
         KC_NO,   D_FLOT,  D_TILE,  D_DECK,  D_MONO,  D_BAR,   KC_NO,        D_TFLT,  D_STKY,  D_NMAI,  D_MONN,  D_MONP,  D_NMAD,  KC_NO,
         D_LOCK,  D_RUN,   D_SCRT,  D_SCRN,  D_TERM,  D_TMUX,  KC_NO,        KC_NO,   D_ZOOM,  D_MSTS,  D_FOCN,  D_FOCP,  D_MSTG,  D_KILL,
-        D_SUSP,  D_ALL,   D_TAG9,  D_TAG8,  D_TAG7,  D_TAG6,                D_TAG5,  D_TAG4,  D_TAG3,  D_TAG2,  D_TAG1,  D_SHOT,
+        D_SUSP,  D_TAG6,  D_TAG7,  D_TAG8,  D_TAG9,  D_ALL,                 D_TAG5,  D_TAG4,  D_TAG3,  D_TAG2,  D_TAG1,  D_SHOT,
         _______, _______, _______, _______, _______, _______,               _______, _______, _______, _______, _______, _______,
                                             KC_LSFT, _______, KC_NO,        _______, _______, _______
     ),
