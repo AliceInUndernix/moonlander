@@ -2,7 +2,7 @@
  * ==========================================================================
  *  ZSA Moonlander (rev B), keymap "canary"
  *  Canary letter layout, built on optozorax's keymap libraries.
- *  Version 98 (the latest; earlier drafts were numbered 75..97).
+ *  Version 97 (the latest; earlier drafts were numbered 75..96).
  * ==========================================================================
  *
  * HOW TO READ THIS FILE
@@ -133,7 +133,6 @@
 #include "combo/include.h"              // CMB_ keys and the chord engine
 #include "color/include.h"              // layer colours on the thumb LEDs
 #include "moonlander_leds.h"            // LED_1..LED_6: the small status LEDs
-#include "virtser.h"                    // virtser_send(): steno chords, section 9
 
 /* ========================================================================== *
  * 2. NAMES
@@ -623,11 +622,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * and x, then index F / R (n, h), middle P / B, ring L / G, pinky T / S
      * (a and the : key), and D / Z on the outer pinky column.
      * All four * keys count as the same star.
-     *
-     * Hold * (or #) and tap letters: each letter goes when it comes up,
-     *          without letting go of * (fingerspelling as if typing; with
-     *          -P held too, capitals; # and T held, digits). See
-     *          post_process_steno_user() in section 9 (version 98).
      *
      * Every other key is KC_NO (not transparent) on purpose, so nothing from
      * layer 0 can sneak in while you write steno. The steno number bar is
@@ -1178,85 +1172,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case CLICKY:       if (down) clicky_enabled = !clicky_enabled; return false; // clicky on/off
     }
     return true;
-}
-
-// Steno: fingerspelling and digits while * or # is held (version 98).
-// Normally a steno chord goes to the computer when every key is up.
-// While a star key or # is held, a chord also goes as soon as a key that
-// went down after the last chord comes up, so you can hold * and tap
-// K, A, T to fingerspell "kat" without letting go of * between letters.
-// Keys still held go into the next chord too: hold -P with * for
-// capitals, or # and T for Dotterel's digits (#T-R is 1). A letter of
-// several keys (PW* is b) goes when its first key comes up, with all of
-// them. When the last key comes up nothing more goes, unless a key went
-// down after the last chord. A normal stroke with * or # is the same as
-// before: it goes when its first key comes up, with every key it has.
-static uint8_t  steno_down[MAX_STROKE_SIZE];  // keys down, as chord bits
-static uint8_t  steno_kept[MAX_STROKE_SIZE];  // ones down at the last chord
-static uint64_t steno_down_bits = 0;  // bit n: steno key STN__MIN + n is down
-static bool     steno_fresh = false;  // a key went down since the last chord
-static bool     steno_early = false;  // a chord went before every key was up
-
-#define STENO_BIT(k) ((uint64_t)1 << ((k) - STN__MIN))
-#define STENO_HOLD_KEYS (STENO_BIT(STN_ST1) | STENO_BIT(STN_ST2) | \
-    STENO_BIT(STN_ST3) | STENO_BIT(STN_ST4) | STENO_BIT(STN_N1) | \
-    STENO_BIT(STN_N2) | STENO_BIT(STN_N3) | STENO_BIT(STN_N4) | \
-    STENO_BIT(STN_N5) | STENO_BIT(STN_N6) | STENO_BIT(STN_N7) | \
-    STENO_BIT(STN_N8) | STENO_BIT(STN_N9) | STENO_BIT(STN_NA) | \
-    STENO_BIT(STN_NB) | STENO_BIT(STN_NC))
-
-// QMK calls this after each steno key goes down or up; chord holds every
-// key that went down since the last chord, n_pressed_keys the keys down.
-bool post_process_steno_user(uint16_t keycode, keyrecord_t *record, steno_mode_t mode,
-                             uint8_t chord[MAX_STROKE_SIZE], int8_t n_pressed_keys) {
-    if (keycode < STN__MIN || keycode > STN__MAX) return true;
-    uint8_t n   = keycode - STN__MIN;
-    uint8_t bit = 1 << (6 - n % 7);  // where QMK puts the key in the chord
-    if (record->event.pressed) {
-        steno_down[n / 7] |= bit;
-        steno_down_bits |= STENO_BIT(keycode);
-        steno_fresh = true;
-        return true;
-    }
-    steno_down[n / 7] &= ~bit;
-    steno_down_bits &= ~STENO_BIT(keycode);
-    if (steno_kept[n / 7] & bit) {
-        // Down when the last chord went (the W of PW*, a held -P) and let
-        // go while * or # is still held: not part of the next chord. Let go
-        // after the last * or #, it still is (# T -R, then # first).
-        steno_kept[n / 7] &= ~bit;
-        if (steno_down_bits & STENO_HOLD_KEYS) chord[n / 7] &= ~bit;
-    }
-    if (mode != STENO_MODE_GEMINI || n_pressed_keys <= 0 || !steno_fresh ||
-        !(steno_down_bits & STENO_HOLD_KEYS)) {
-        return true;
-    }
-    // Send it now, as QMK would (the first byte has its top bit set), and
-    // start the next chord with the keys that are still down.
-    for (uint8_t i = 0; i < GEMINI_STROKE_SIZE; i++) {
-        virtser_send(i == 0 ? (chord[i] | 0x80) : chord[i]);
-        chord[i] = steno_down[i];
-        steno_kept[i] = steno_down[i];
-    }
-    steno_fresh = false;
-    steno_early = true;
-    return true;
-}
-
-// QMK calls this when every steno key is up, before it sends the chord.
-// After an early chord, the keys let go since are only what is left of it.
-bool send_steno_chord_user(steno_mode_t mode, uint8_t chord[MAX_STROKE_SIZE]) {
-    (void)mode;
-    (void)chord;
-    bool send = steno_fresh || !steno_early;
-    for (uint8_t i = 0; i < MAX_STROKE_SIZE; i++) {
-        steno_down[i] = 0;
-        steno_kept[i] = 0;
-    }
-    steno_down_bits = 0;
-    steno_fresh = false;
-    steno_early = false;
-    return send;
 }
 
 // Timer work for the libraries (chord timeouts, Shift release), the mouse
