@@ -1191,7 +1191,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // them. When the last key comes up nothing more goes, unless a key went
 // down after the last chord. A normal stroke with * or # is the same as
 // before: it goes when its first key comes up, with every key it has.
-static uint64_t steno_held  = 0;      // bit n: steno key STN__MIN + n is down
+static uint8_t  steno_down[MAX_STROKE_SIZE];  // keys down, as chord bits
+static uint8_t  steno_kept[MAX_STROKE_SIZE];  // ones down at the last chord
+static uint64_t steno_down_bits = 0;  // bit n: steno key STN__MIN + n is down
 static bool     steno_fresh = false;  // a key went down since the last chord
 static bool     steno_early = false;  // a chord went before every key was up
 
@@ -1208,24 +1210,33 @@ static bool     steno_early = false;  // a chord went before every key was up
 bool post_process_steno_user(uint16_t keycode, keyrecord_t *record, steno_mode_t mode,
                              uint8_t chord[MAX_STROKE_SIZE], int8_t n_pressed_keys) {
     if (keycode < STN__MIN || keycode > STN__MAX) return true;
+    uint8_t n   = keycode - STN__MIN;
+    uint8_t bit = 1 << (6 - n % 7);  // where QMK puts the key in the chord
     if (record->event.pressed) {
-        steno_held |= STENO_BIT(keycode);
+        steno_down[n / 7] |= bit;
+        steno_down_bits |= STENO_BIT(keycode);
         steno_fresh = true;
         return true;
     }
-    steno_held &= ~STENO_BIT(keycode);
+    steno_down[n / 7] &= ~bit;
+    steno_down_bits &= ~STENO_BIT(keycode);
+    if (steno_kept[n / 7] & bit) {
+        // Down when the last chord went (the W of PW*, a held -P) and let
+        // go while * or # is still held: not part of the next chord. Let go
+        // after the last * or #, it still is (# T -R, then # first).
+        steno_kept[n / 7] &= ~bit;
+        if (steno_down_bits & STENO_HOLD_KEYS) chord[n / 7] &= ~bit;
+    }
     if (mode != STENO_MODE_GEMINI || n_pressed_keys <= 0 || !steno_fresh ||
-        !(steno_held & STENO_HOLD_KEYS)) {
+        !(steno_down_bits & STENO_HOLD_KEYS)) {
         return true;
     }
-    // Send it now, as QMK would (the first byte has its top bit set)...
+    // Send it now, as QMK would (the first byte has its top bit set), and
+    // start the next chord with the keys that are still down.
     for (uint8_t i = 0; i < GEMINI_STROKE_SIZE; i++) {
         virtser_send(i == 0 ? (chord[i] | 0x80) : chord[i]);
-    }
-    // ...and start the next chord with the keys that are still down.
-    for (uint8_t i = 0; i < MAX_STROKE_SIZE; i++) chord[i] = 0;
-    for (uint8_t n = 0; n <= STN__MAX - STN__MIN; n++) {
-        if (steno_held & ((uint64_t)1 << n)) chord[n / 7] |= 1 << (6 - n % 7);
+        chord[i] = steno_down[i];
+        steno_kept[i] = steno_down[i];
     }
     steno_fresh = false;
     steno_early = true;
@@ -1235,8 +1246,14 @@ bool post_process_steno_user(uint16_t keycode, keyrecord_t *record, steno_mode_t
 // QMK calls this when every steno key is up, before it sends the chord.
 // After an early chord, the keys let go since are only what is left of it.
 bool send_steno_chord_user(steno_mode_t mode, uint8_t chord[MAX_STROKE_SIZE]) {
+    (void)mode;
+    (void)chord;
     bool send = steno_fresh || !steno_early;
-    steno_held  = 0;
+    for (uint8_t i = 0; i < MAX_STROKE_SIZE; i++) {
+        steno_down[i] = 0;
+        steno_kept[i] = 0;
+    }
+    steno_down_bits = 0;
     steno_fresh = false;
     steno_early = false;
     return send;
