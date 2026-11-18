@@ -2,7 +2,7 @@
  * ==========================================================================
  *  ZSA Moonlander (rev B), keymap "canary"
  *  Canary letter layout, built on optozorax's keymap libraries.
- *  Version 103 (the latest; earlier drafts were numbered 75..97, and 98
+ *  Version 104 (the latest; earlier drafts were numbered 75..97, and 98
  *  was dropped).
  * ==========================================================================
  *
@@ -291,7 +291,7 @@ enum custom_keycodes {
 #define D_ALL   DWM_MOD(KC_0)            // view all tags (Shift: window on all tags)
 
 // Launch and close
-#define D_TERM  DWM_MOD_SFT(KC_ENT)      // terminal, st (Super+Shift+Enter)
+#define D_TERM  DWM_MOD_SFT(KC_U)        // terminal, st (Super+Shift+u; version 104)
 #define D_ZOOM  DWM_MOD(KC_ENT)          // focused window to/from master (Super+Enter)
 #define D_RUN   DWM_MOD(KC_P)            // dmenu launcher (Super+p)
 #define D_SCRT  DWM_MOD(KC_GRV)          // scratchpad with tmux on/off (Super+`)
@@ -299,7 +299,7 @@ enum custom_keycodes {
 #define D_KILL  DWM_MOD_SFT(KC_C)        // close the window (Super+Shift+c), no Shift needed
 #define D_TMUX  DWM_MOD(KC_X)            // tmux: attach to the last session, or start one (Super+x;
                                          //   Shift: always a new session)
-#define D_LOCK  DWM_MOD_SFT(KC_L)        // lock the screen, slock (Super+Shift+l)
+#define D_LOCK  DWM_MOD_SFT(KC_O)        // lock the screen, slock (Super+Shift+o; version 104)
 #define D_SUSP  LCTL(LSFT(KC_Z))         // suspend (Super+Ctrl+Shift+z; version 96)
 // D_SHOT (plain Print, Flameshot's picker) is an own keycode in section 2,
 // because it has to let go of the held Super for a moment.
@@ -641,7 +641,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *
      * Holding the layer key also holds Super (see section 3), so every key
      * here is Super + that key, and each dwm shortcut is one key.
-     * Matches dwm/config.h in the dotfiles (checked 2026-11-12).
+     * Matches dwm/config.h in the dotfiles (checked 2026-11-18).
      * Layout chosen by the owner key by key (version 90). Version 91: Kill,
      * Menu and the new Tmux key on the home row, Web moved up to the top row.
      * Version 92: Stky on the empty key left of TFlt.
@@ -655,7 +655,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * Version 100: left-hand tags reversed to Tag6 Tag7 Tag8 Tag9 All, so
      * each hand counts from its pinky (Tag1 right pinky, Tag6 left pinky)
      * and the hardest keys, the inner index ones, get Tag5 and All.
+     * Version 104: Shift on a key never does an unrelated thing. Shift+
+     * Shrk / Grow move the border between stacked windows (dwm moved
+     * lock off Super+Shift+l, and restart off Super+Shift+r to Super+
+     * Ctrl+Shift+r). Term sends Super+Shift+u and Lock Super+Shift+o,
+     * letters no other key here sends, so Shift on Zoom
+     * (Super+Shift+Enter) does nothing. The number row is off (--): its
+     * marks are Shift+digit, which would move the window to a tag.
      *
+     * number   --   --   --   --   --   --   --       --   --   --   --   --   --   --
      * top      --   Flt  Tile Deck Mono Bar  --       TFlt Stky Mst+ Mon> Mon< Mst- --
      * home     Lock Menu STmx Scr  Term Tmux --       --   Zoom Shrk Next Prev Grow Kill
      * bottom   Susp Tag6 Tag7 Tag8 Tag9 All                Tag5 Tag4 Tag3 Tag2 Tag1 Shot
@@ -685,11 +693,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *   Tmux     st with tmux: attaches to the last session, or starts one
      *            if there is none (Super+x). With Shift: always a new
      *            session (Super+Shift+x)
-     *   Menu     dmenu (Super+p)                Term  st (Super+Shift+Enter)
+     *   Menu     dmenu (Super+p)                Term  st (Super+Shift+u)
      *   STmx     scratchpad with tmux (Super+`)
      *   Scr      scratchpad, plain st (Super+n; version 99)
      *   Shot     Flameshot picker (plain Print; Ctrl+A in it takes the whole screen)
-     *   Lock     slock (Super+Shift+l)
+     *   Lock     slock (Super+Shift+o; sends the Shift itself)
      *   Susp     suspend (sends Super+Ctrl+Shift+z itself, no Shift needed;
      *            version 96)
      *
@@ -701,6 +709,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * switch steno on by accident. With Shift:
      *   Tag1..9  move the window to that tag    All   window on all tags
      *   Next Prev  move the window down / up the stack
+     *   Shrk Grow  move the border under the window up / down (the last
+     *            window of a column: the border above it). Version 104
      *   Mon< Mon>  send the window to that monitor
      *   Tmux     a new tmux session
      *   Stky     pin the window on every tag
@@ -708,7 +718,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * work by holding the big Ctrl key too.
      */
     [L_DWM] = LAYOUT_moonlander(
-        _______, _______, _______, _______, _______, _______, _______,      _______, _______, _______, _______, _______, _______, _______,
+        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
         KC_NO,   D_FLOT,  D_TILE,  D_DECK,  D_MONO,  D_BAR,   KC_NO,        D_TFLT,  D_STKY,  D_NMAI,  D_MONN,  D_MONP,  D_NMAD,  KC_NO,
         D_LOCK,  D_RUN,   D_SCRT,  D_SCRN,  D_TERM,  D_TMUX,  KC_NO,        KC_NO,   D_ZOOM,  D_MSTS,  D_FOCN,  D_FOCP,  D_MSTG,  D_KILL,
         D_SUSP,  D_TAG6,  D_TAG7,  D_TAG8,  D_TAG9,  D_ALL,                 D_TAG5,  D_TAG4,  D_TAG3,  D_TAG2,  D_TAG1,  D_SHOT,
