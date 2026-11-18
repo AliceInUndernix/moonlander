@@ -9,15 +9,15 @@ libraries come from. This file adds the background and the history.
 
 | Path | What it is |
 |---|---|
-| `canary/keymap.c` | **Latest layout (version 100)** |
-| `canary/config.h` | Latest config (version 100): debounce, RGB, audio, combo limits |
-| `canary/rules.mk` | Latest build features (version 100): steno, mouse keys, USB endpoints |
+| `canary/keymap.c` | **Latest layout (version 101)** |
+| `canary/config.h` | Latest config (version 101): debounce, RGB, audio, combo limits |
+| `canary/rules.mk` | Latest build features (version 101): steno, mouse keys, USB endpoints |
 | `knowledge/canary/` | The first working canary keymap, kept as reference |
 | `knowledge/inspiration.md` | Link to the inspiration: https://github.com/optozorax/moonlander |
 | `build.sh` | Sets up QMK, builds and flashes (see README.md) |
 | `history/` | Every earlier numbered draft (keymap 75..86, config 71/81..86, rules 1/81..86), unchanged |
 
-`history/` stops at version 86; versions 87 to 100 are in the version history
+`history/` stops at version 86; versions 87 to 101 are in the version history
 below, and in git: up to 97 in the dotfiles repo, where the layout
 lived until 2026-11-15 (`git log -- moonlander/canary` there), and
 from then on here.
@@ -36,10 +36,10 @@ from then on here.
   Shift, Tab, Backspace. Big angled keys: Ctrl (left), Alt (right).
 - **Thumb chords:** Space+Red = Enter, Tab+Bksp = Escape, Bksp+Alt = Delete,
   Ctrl+Red = Ctrl+Shift.
-- **Number row is punctuation**, built from combo keys: `. ! ?` type the mark,
-  a space and capitalise the next letter; `, ; :` add a space; chords give
-  `& # $ % \` ` and backslash; four keys give an ellipsis. With Shift held,
-  marks type without the space.
+- **Number row is punctuation**, built from combo keys: `. ! ? , ; :` type
+  just the mark; with Shift, `. ! ?` type the mark, a space and capitalise
+  the next letter, and `, ; :` add a space. Chords give `& # $ % \` ` and
+  backslash; four keys give an ellipsis ("..." and, with Shift, "... ").
 
 | # | Layer | How to reach it | Thumb LED colour |
 |---|---|---|---|
@@ -137,9 +137,13 @@ suggest them again without asking:
   Tmux under Bar, and two scratchpads side by side: STmx (tmux,
   Super+`) and Scr (plain st, Super+n, needs the dotfiles' dwm from
   2026-11-17).
-- **100 (latest):** dwm layer: left-hand tags reversed to Tag6 Tag7
+- **100:** dwm layer: left-hand tags reversed to Tag6 Tag7
   Tag8 Tag9 All, so each hand counts from its pinky (Tag1 right pinky,
   Tag6 left pinky) and All sits on the hard inner index key.
+- **101 (latest):** plain and Shift punctuation swapped: `. ! ? , ; :`
+  now type just the mark, and with Shift they add the space (and the
+  capital after `. ! ?`). The ellipsis chord swapped the same way.
+  `:` moved above `a` and `;` went to the old `:` key.
 - **config:** combo key count raised from 20 to 32 (by version 71); debounce
   raised to 12 ms against double letters (version 82). **rules:** unchanged in
   substance since the first numbered version (rules_1).

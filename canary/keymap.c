@@ -2,7 +2,7 @@
  * ==========================================================================
  *  ZSA Moonlander (rev B), keymap "canary"
  *  Canary letter layout, built on optozorax's keymap libraries.
- *  Version 100 (the latest; earlier drafts were numbered 75..97, and 98
+ *  Version 101 (the latest; earlier drafts were numbered 75..97, and 98
  *  was dropped).
  * ==========================================================================
  *
@@ -186,21 +186,21 @@ enum Combos {
     // Number row, layer 0
     CMB_PLS  = CMB_016,  // +
     CMB_DQ   = CMB_017,  // "
-    CMB_DOT  = CMB_018,  // .  (then a space, and the next letter is a capital)
-    CMB_EXC  = CMB_019,  // !  (then a space, and the next letter is a capital)
-    CMB_QUE  = CMB_020,  // ?  (then a space, and the next letter is a capital)
-    CMB_CMM  = CMB_021,  // ,  (then a space)
+    CMB_DOT  = CMB_018,  // .
+    CMB_EXC  = CMB_019,  // !
+    CMB_QUE  = CMB_020,  // ?
+    CMB_CMM  = CMB_021,  // ,
     CMB_QT   = CMB_022,  // '
     CMB_SLS  = CMB_023,  // /
     CMB_PIP  = CMB_024,  // |
 
-    // Number row, layer 1 (Shift held): the same marks, no space after
+    // Number row, layer 1 (Shift held): the same marks + a space
     CMB_SPLS = CMB_025,  // +
     CMB_SDQ  = CMB_026,  // "
-    CMB_SDOT = CMB_027,  // .
-    CMB_SEXC = CMB_028,  // !
-    CMB_SQUE = CMB_029,  // ?
-    CMB_SCMM = CMB_030,  // ,
+    CMB_SDOT = CMB_027,  // .  (then a space, and the next letter is a capital)
+    CMB_SEXC = CMB_028,  // !  (then a space, and the next letter is a capital)
+    CMB_SQUE = CMB_029,  // ?  (then a space, and the next letter is a capital)
+    CMB_SCMM = CMB_030,  // ,  (then a space)
 };
 
 /*
@@ -223,7 +223,7 @@ enum custom_keycodes {
     SEMI_SP,                          // "; "
     COLN_SP,                          // ": "
     ELLIPSIS,                         // "... "
-    ELLIPSIS_N,                       // "..."  (no space; used with Shift held)
+    ELLIPSIS_N,                       // "..."  (no space)
 
     // Mouse layer: pointer moves that speed up while held (section 7).
     // Keep these four together and in this order: the code relies on it.
@@ -445,10 +445,10 @@ const ComboWithKeycode combos[] PROGMEM = {
     // (~ = @ ^ * are normal keys, not combo keys, so they are not listed here.)
     CHORD(EN_PLUS, CMB_PLS),            // +
     CHORD(EN_DQUO, CMB_DQ),             // "
-    CHORD(DOT_SP,  CMB_DOT),            // ". " and a capital next
-    CHORD(EXC_SP,  CMB_EXC),            // "! " and a capital next
-    CHORD(QUE_SP,  CMB_QUE),            // "? " and a capital next
-    CHORD(CMM_SP,  CMB_CMM),            // ", "
+    CHORD(EN_DOT,  CMB_DOT),            // .
+    CHORD(EN_EXCL, CMB_EXC),            // !
+    CHORD(EN_QUES, CMB_QUE),            // ?
+    CHORD(EN_COMM, CMB_CMM),            // ,
     CHORD(EN_QUOT, CMB_QT),             // '
     CHORD(EN_SLSH, CMB_SLS),            // /
     CHORD(EN_PIPE, CMB_PIP),            // |
@@ -462,15 +462,15 @@ const ComboWithKeycode combos[] PROGMEM = {
     // --- Number row on layer 0, three and four keys ---
     CHORD(EN_DLR,   CMB_DQ,  CMB_DOT, CMB_EXC),           // " + . + !      -> $
     CHORD(EN_PERC,  CMB_QUE, CMB_CMM, CMB_QT),            // ? + , + '      -> %
-    CHORD(ELLIPSIS, CMB_PLS, CMB_DQ,  CMB_DOT, CMB_EXC),  // + + " + . + !  -> "... "
+    CHORD(ELLIPSIS_N, CMB_PLS, CMB_DQ, CMB_DOT, CMB_EXC), // + + " + . + ! -> "..."
 
-    // --- Number row on layer 1 (Shift held): plain marks, no space ---
+    // --- Number row on layer 1 (Shift held): marks + a space ---
     CHORD(EN_PLUS, CMB_SPLS),           // +
     CHORD(EN_DQUO, CMB_SDQ),            // "
-    CHORD(EN_DOT,  CMB_SDOT),           // .
-    CHORD(EN_EXCL, CMB_SEXC),           // !
-    CHORD(EN_QUES, CMB_SQUE),           // ?
-    CHORD(EN_COMM, CMB_SCMM),           // ,
+    CHORD(DOT_SP,  CMB_SDOT),           // ". " and a capital next
+    CHORD(EXC_SP,  CMB_SEXC),           // "! " and a capital next
+    CHORD(QUE_SP,  CMB_SQUE),           // "? " and a capital next
+    CHORD(CMM_SP,  CMB_SCMM),           // ", "
     // The same chords as on layer 0. They are needed again because with Shift
     // held (or right after ". ", "! ", "? ") the number-row keys are the
     // layer 1 combo keys. ' / | are the same keys on both layers.
@@ -479,7 +479,7 @@ const ComboWithKeycode combos[] PROGMEM = {
     CHORD(EN_GRV,  CMB_SDQ,  CMB_QT),                     // " + '      -> `
     CHORD(EN_DLR,  CMB_SDQ,  CMB_SDOT, CMB_SEXC),         // " + . + !  -> $
     CHORD(EN_PERC, CMB_SQUE, CMB_SCMM, CMB_QT),           // ? + , + '  -> %
-    CHORD(ELLIPSIS_N, CMB_SPLS, CMB_SDQ, CMB_SDOT, CMB_SEXC),   // + + " + . + ! -> "..." (no space)
+    CHORD(ELLIPSIS, CMB_SPLS, CMB_SDQ, CMB_SDOT, CMB_SEXC),   // + + " + . + ! -> "... "
 };
 const uint8_t combos_size = sizeof(combos) / sizeof(ComboWithKeycode);
 
@@ -503,9 +503,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *
      *          left half                              right half
      * number   ~    +    "    .    !    =    @        ^    *    ?    ,    '    /    |
-     * top      _    w    l    y    p    b    --       --   z    f    o    u    ;    -
+     * top      _    w    l    y    p    b    --       --   z    f    o    u    :    -
      * home     1Sh  c    r    s    t    g    --       --   m    n    e    i    a    1Sh
-     * bottom   --   q    j    v    d    k                 x    h    --   --   :    --
+     * bottom   --   q    j    v    d    k                 x    h    --   --   ;    --
      * lower    RGB  Fn   --   --   Mse  [Ctrl]      [Alt] DWM  Tmux --   --   --
      * thumbs                  Spc  Red  Steno       Shift Tab  Bksp
      *
@@ -516,10 +516,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *   Tmux  hold: tmux layer
      *   Steno tap: steno layer on (tap again on the steno layer to leave)
      *
-     * Punctuation that adds a space:
-     *   .  !  ?   type the mark + a space, and the next letter is a capital
-     *   ,  ;  :   type the mark + a space
-     *   With Shift held (layer 1) they type just the mark, no space.
+     * Punctuation:
+     *   .  !  ?  ,  ;  :   type just the mark, no space.
+     *   With Shift (layer 1) they add a space: . ! ? also make the next
+     *   letter a capital.
      *
      * Chords (press the keys together):
      *   Space + Red        Enter          Tab + Bksp        Escape
@@ -527,13 +527,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *   " + .              &              , + '             #
      *   " + . + !          $              ? + , + '         %
      *   " + '              `              / + |             \  (backslash)
-     *   + + " + . + !      "... "
+     *   + + " + . + !      "..."
      */
     [L_EN] = LAYOUT_moonlander(
         EN_TILD, CMB_PLS, CMB_DQ,  CMB_DOT, CMB_EXC, EN_EQL,  EN_AT,        EN_CIRC, EN_ASTR, CMB_QUE, CMB_CMM, CMB_QT,  CMB_SLS, CMB_PIP,
-        EN_UNDS, EN_W,    EN_L,    EN_Y,    EN_P,    EN_B,    KC_NO,        KC_NO,   EN_Z,    EN_F,    EN_O,    EN_U,    SEMI_SP, EN_MINS,
+        EN_UNDS, EN_W,    EN_L,    EN_Y,    EN_P,    EN_B,    KC_NO,        KC_NO,   EN_Z,    EN_F,    EN_O,    EN_U,    EN_COLN, EN_MINS,
         SFT_N_O, EN_C,    EN_R,    EN_S,    EN_T,    EN_G,    KC_NO,        KC_NO,   EN_M,    EN_N,    EN_E,    EN_I,    EN_A,    SFT_N_O,
-        KC_NO,   EN_Q,    EN_J,    EN_V,    EN_D,    EN_K,                  EN_X,    EN_H,    KC_NO,   KC_NO,   COLN_SP, KC_NO,
+        KC_NO,   EN_Q,    EN_J,    EN_V,    EN_D,    EN_K,                  EN_X,    EN_H,    KC_NO,   KC_NO,   EN_SCLN, KC_NO,
         CMB_RGB, MO(L_FKEYS), KC_NO, KC_NO, MO(L_MOUSE), CMB_CTL,           CMB_ALT, CMB_DWM, MO(L_TMUX), KC_NO, KC_NO,   KC_NO,
                                             CMB_SPC, CMB_RED, TG(L_STENO), CMB_SFT, CMB_TAB, CMB_BSP
     ),
@@ -543,22 +543,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *
      * lang_shift switches this layer on by itself while Shift is held, or
      * for one key after a one-time Shift. Every letter is written out as a
-     * capital (EN_S_ names). The number-row marks and ; : type without a
-     * space here. The number-row chords (& # ` $ % and backslash) work here too; the
-     * four-key ellipsis chord types "..." with no space.
+     * capital (EN_S_ names). The number-row marks and ; : type the mark
+     * and a space here, and . ! ? make the next letter a capital. The
+     * number-row chords (& # ` $ % and backslash) work here too; the
+     * four-key ellipsis chord types "... ".
      * Everything marked _______ works as on layer 0.
      *
      * number   __   +    "    .    !    __   __       __   __   ?    ,    __   __   __
-     * top      __   W    L    Y    P    B    __       __   Z    F    O    U    ;    __
+     * top      __   W    L    Y    P    B    __       __   Z    F    O    U    :    __
      * home     __   C    R    S    T    G    __       __   M    N    E    I    A    __
-     * bottom   __   Q    J    V    D    K                 X    H    __   __   :    __
+     * bottom   __   Q    J    V    D    K                 X    H    __   __   ;    __
      *   (__ = same as layer 0)
      */
     [L_EN_S] = LAYOUT_moonlander(
         _______, CMB_SPLS, CMB_SDQ, CMB_SDOT, CMB_SEXC, _______, _______,    _______, _______, CMB_SQUE, CMB_SCMM, _______, _______, _______,
-        _______, EN_S_W,  EN_S_L,  EN_S_Y,  EN_S_P,  EN_S_B,  _______,      _______, EN_S_Z,  EN_S_F,  EN_S_O,  EN_S_U,  EN_SCLN, _______,
+        _______, EN_S_W,  EN_S_L,  EN_S_Y,  EN_S_P,  EN_S_B,  _______,      _______, EN_S_Z,  EN_S_F,  EN_S_O,  EN_S_U,  COLN_SP, _______,
         _______, EN_S_C,  EN_S_R,  EN_S_S,  EN_S_T,  EN_S_G,  _______,      _______, EN_S_M,  EN_S_N,  EN_S_E,  EN_S_I,  EN_S_A,  _______,
-        _______, EN_S_Q,  EN_S_J,  EN_S_V,  EN_S_D,  EN_S_K,                EN_S_X,  EN_S_H,  _______, _______, EN_COLN, _______,
+        _______, EN_S_Q,  EN_S_J,  EN_S_V,  EN_S_D,  EN_S_K,                EN_S_X,  EN_S_H,  _______, _______, SEMI_SP, _______,
         _______, _______, _______, _______, _______, _______,               _______, _______, _______, _______, _______, _______,
                                             _______, _______, _______,      _______, _______, _______
     ),
