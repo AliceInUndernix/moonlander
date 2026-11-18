@@ -9,15 +9,15 @@ libraries come from. This file adds the background and the history.
 
 | Path | What it is |
 |---|---|
-| `canary/keymap.c` | **Latest layout (version 101)** |
-| `canary/config.h` | Latest config (version 101): debounce, RGB, audio, combo limits |
-| `canary/rules.mk` | Latest build features (version 101): steno, mouse keys, USB endpoints |
+| `canary/keymap.c` | **Latest layout (version 102)** |
+| `canary/config.h` | Latest config (version 102): debounce, RGB, audio, combo limits |
+| `canary/rules.mk` | Latest build features (version 102): steno, mouse keys, USB endpoints |
 | `knowledge/canary/` | The first working canary keymap, kept as reference |
 | `knowledge/inspiration.md` | Link to the inspiration: https://github.com/optozorax/moonlander |
 | `build.sh` | Sets up QMK, builds and flashes (see README.md) |
 | `history/` | Every earlier numbered draft (keymap 75..86, config 71/81..86, rules 1/81..86), unchanged |
 
-`history/` stops at version 86; versions 87 to 101 are in the version history
+`history/` stops at version 86; versions 87 to 102 are in the version history
 below, and in git: up to 97 in the dotfiles repo, where the layout
 lived until 2026-11-15 (`git log -- moonlander/canary` there), and
 from then on here.
@@ -36,10 +36,11 @@ from then on here.
   Shift, Tab, Backspace. Big angled keys: Ctrl (left), Alt (right).
 - **Thumb chords:** Space+Red = Enter, Tab+Bksp = Escape, Bksp+Alt = Delete,
   Ctrl+Red = Ctrl+Shift.
-- **Number row is punctuation**, built from combo keys: `. ! ? , ; :` type
+- **Number row is punctuation**, built from combo keys: `. ! ? , :` type
   just the mark; with Shift, `. ! ?` type the mark, a space and capitalise
-  the next letter, and `, ; :` add a space. Chords give `& # $ % \` ` and
-  backslash; four keys give an ellipsis ("..." and, with Shift, "... ").
+  the next letter, `,` adds a space, and `:` gives a plain `;`. Chords give
+  `& # $ % \` ` and backslash; four keys give an ellipsis ("..." and,
+  with Shift, "... ").
 
 | # | Layer | How to reach it | Thumb LED colour |
 |---|---|---|---|
@@ -140,10 +141,12 @@ suggest them again without asking:
 - **100:** dwm layer: left-hand tags reversed to Tag6 Tag7
   Tag8 Tag9 All, so each hand counts from its pinky (Tag1 right pinky,
   Tag6 left pinky) and All sits on the hard inner index key.
-- **101 (latest):** plain and Shift punctuation swapped: `. ! ? , ; :`
+- **101:** plain and Shift punctuation swapped: `. ! ? , ; :`
   now type just the mark, and with Shift they add the space (and the
   capital after `. ! ?`). The ellipsis chord swapped the same way.
   `:` moved above `a` and `;` went to the old `:` key.
+- **102 (latest):** Shift + `:` (the key above `a`) types a plain `;`,
+  and the `;` key on the bottom row is gone (it does nothing now).
 - **config:** combo key count raised from 20 to 32 (by version 71); debounce
   raised to 12 ms against double letters (version 82). **rules:** unchanged in
   substance since the first numbered version (rules_1).
