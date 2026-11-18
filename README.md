@@ -13,7 +13,7 @@ https://github.com/AliceInUndernix/dotterel
 
 | Path | What it is |
 |---|---|
-| `canary/` | Current layout (version 102): `keymap.c`, `config.h`, `rules.mk`, `keymap.json`, `mcuconf.h`, and the libraries it needs |
+| `canary/` | Current layout (version 103): `keymap.c`, `config.h`, `rules.mk`, `keymap.json`, `mcuconf.h`, and the libraries it needs |
 | `build.sh` | Sets up QMK, builds the firmware and flashes it |
 | `layout.html` | Every layer as key squares; updated with every layout change |
 | `qmk.patch` | Small patch to ZSA's QMK that the libraries need |

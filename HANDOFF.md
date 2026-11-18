@@ -9,15 +9,15 @@ libraries come from. This file adds the background and the history.
 
 | Path | What it is |
 |---|---|
-| `canary/keymap.c` | **Latest layout (version 102)** |
-| `canary/config.h` | Latest config (version 102): debounce, RGB, audio, combo limits |
-| `canary/rules.mk` | Latest build features (version 102): steno, mouse keys, USB endpoints |
+| `canary/keymap.c` | **Latest layout (version 103)** |
+| `canary/config.h` | Latest config (version 103): debounce, RGB, audio, combo limits |
+| `canary/rules.mk` | Latest build features (version 103): steno, mouse keys, USB endpoints |
 | `knowledge/canary/` | The first working canary keymap, kept as reference |
 | `knowledge/inspiration.md` | Link to the inspiration: https://github.com/optozorax/moonlander |
 | `build.sh` | Sets up QMK, builds and flashes (see README.md) |
 | `history/` | Every earlier numbered draft (keymap 75..86, config 71/81..86, rules 1/81..86), unchanged |
 
-`history/` stops at version 86; versions 87 to 102 are in the version history
+`history/` stops at version 86; versions 87 to 103 are in the version history
 below, and in git: up to 97 in the dotfiles repo, where the layout
 lived until 2026-11-15 (`git log -- moonlander/canary` there), and
 from then on here.
@@ -145,8 +145,11 @@ suggest them again without asking:
   now type just the mark, and with Shift they add the space (and the
   capital after `. ! ?`). The ellipsis chord swapped the same way.
   `:` moved above `a` and `;` went to the old `:` key.
-- **102 (latest):** Shift + `:` (the key above `a`) types a plain `;`,
+- **102:** Shift + `:` (the key above `a`) types a plain `;`,
   and the `;` key on the bottom row is gone (it does nothing now).
+- **103 (latest):** `/` moved from the number row to the bottom row under
+  `a`, and `|` next to it on the right (under the right 1Sh). Their old
+  number-row keys do nothing now; `/ + |` is still backslash.
 - **config:** combo key count raised from 20 to 32 (by version 71); debounce
   raised to 12 ms against double letters (version 82). **rules:** unchanged in
   substance since the first numbered version (rules_1).

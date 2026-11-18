@@ -2,7 +2,7 @@
  * ==========================================================================
  *  ZSA Moonlander (rev B), keymap "canary"
  *  Canary letter layout, built on optozorax's keymap libraries.
- *  Version 102 (the latest; earlier drafts were numbered 75..97, and 98
+ *  Version 103 (the latest; earlier drafts were numbered 75..97, and 98
  *  was dropped).
  * ==========================================================================
  *
@@ -191,8 +191,8 @@ enum Combos {
     CMB_QUE  = CMB_020,  // ?
     CMB_CMM  = CMB_021,  // ,
     CMB_QT   = CMB_022,  // '
-    CMB_SLS  = CMB_023,  // /
-    CMB_PIP  = CMB_024,  // |
+    CMB_SLS  = CMB_023,  // /  (bottom row, under a)
+    CMB_PIP  = CMB_024,  // |  (bottom row, right of /)
 
     // Number row, layer 1 (Shift held): the same marks + a space
     CMB_SPLS = CMB_025,  // +
@@ -502,10 +502,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * LAYER 0: Canary
      *
      *          left half                              right half
-     * number   ~    +    "    .    !    =    @        ^    *    ?    ,    '    /    |
+     * number   ~    +    "    .    !    =    @        ^    *    ?    ,    '    --   --
      * top      _    w    l    y    p    b    --       --   z    f    o    u    :    -
      * home     1Sh  c    r    s    t    g    --       --   m    n    e    i    a    1Sh
-     * bottom   --   q    j    v    d    k                 x    h    --   --   --   --
+     * bottom   --   q    j    v    d    k                 x    h    --   --   /    |
      * lower    RGB  Fn   --   --   Mse  [Ctrl]      [Alt] DWM  Tmux --   --   --
      * thumbs                  Spc  Red  Steno       Shift Tab  Bksp
      *
@@ -530,10 +530,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *   + + " + . + !      "..."
      */
     [L_EN] = LAYOUT_moonlander(
-        EN_TILD, CMB_PLS, CMB_DQ,  CMB_DOT, CMB_EXC, EN_EQL,  EN_AT,        EN_CIRC, EN_ASTR, CMB_QUE, CMB_CMM, CMB_QT,  CMB_SLS, CMB_PIP,
+        EN_TILD, CMB_PLS, CMB_DQ,  CMB_DOT, CMB_EXC, EN_EQL,  EN_AT,        EN_CIRC, EN_ASTR, CMB_QUE, CMB_CMM, CMB_QT,  KC_NO,   KC_NO,
         EN_UNDS, EN_W,    EN_L,    EN_Y,    EN_P,    EN_B,    KC_NO,        KC_NO,   EN_Z,    EN_F,    EN_O,    EN_U,    EN_COLN, EN_MINS,
         SFT_N_O, EN_C,    EN_R,    EN_S,    EN_T,    EN_G,    KC_NO,        KC_NO,   EN_M,    EN_N,    EN_E,    EN_I,    EN_A,    SFT_N_O,
-        KC_NO,   EN_Q,    EN_J,    EN_V,    EN_D,    EN_K,                  EN_X,    EN_H,    KC_NO,   KC_NO,   KC_NO,   KC_NO,
+        KC_NO,   EN_Q,    EN_J,    EN_V,    EN_D,    EN_K,                  EN_X,    EN_H,    KC_NO,   KC_NO,   CMB_SLS, CMB_PIP,
         CMB_RGB, MO(L_FKEYS), KC_NO, KC_NO, MO(L_MOUSE), CMB_CTL,           CMB_ALT, CMB_DWM, MO(L_TMUX), KC_NO, KC_NO,   KC_NO,
                                             CMB_SPC, CMB_RED, TG(L_STENO), CMB_SFT, CMB_TAB, CMB_BSP
     ),
