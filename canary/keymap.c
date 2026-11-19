@@ -2,7 +2,7 @@
  * ==========================================================================
  *  ZSA Moonlander (rev B), keymap "canary"
  *  Canary letter layout, built on optozorax's keymap libraries.
- *  Version 106 (the latest; earlier drafts were numbered 75..97, and 98
+ *  Version 107 (the latest; earlier drafts were numbered 75..97, and 98
  *  was dropped).
  * ==========================================================================
  *
@@ -491,7 +491,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * LAYER 0: Canary
      *
      *          left half                              right half
-     * number   ~    +    "    =    !    %    @        ^    #    ?    *    '    &    $
+     * number   ~    +    "    =    !    &    @        ^    #    ?    *    '    %    $
      * top      _    w    l    y    p    b    --       --   z    f    o    u    :    -
      * home     1Sh  c    r    s    t    g    --       --   m    n    e    i    a    1Sh
      * bottom   --   q    j    v    d    k                 x    h    ,    .    /    |
@@ -519,7 +519,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *   No symbol is on both a key and a chord.
      */
     [L_EN] = LAYOUT_moonlander(
-        EN_TILD, CMB_PLS, CMB_DQ,  CMB_EQL, CMB_EXC, EN_PERC, EN_AT,        EN_CIRC, EN_HASH, CMB_QUE, EN_ASTR, CMB_QT,  EN_AMPR, EN_DLR,
+        EN_TILD, CMB_PLS, CMB_DQ,  CMB_EQL, CMB_EXC, EN_AMPR, EN_AT,        EN_CIRC, EN_HASH, CMB_QUE, EN_ASTR, CMB_QT,  EN_PERC, EN_DLR,
         EN_UNDS, EN_W,    EN_L,    EN_Y,    EN_P,    EN_B,    KC_NO,        KC_NO,   EN_Z,    EN_F,    EN_O,    EN_U,    EN_COLN, EN_MINS,
         SFT_N_O, EN_C,    EN_R,    EN_S,    EN_T,    EN_G,    KC_NO,        KC_NO,   EN_M,    EN_N,    EN_E,    EN_I,    EN_A,    SFT_N_O,
         KC_NO,   EN_Q,    EN_J,    EN_V,    EN_D,    EN_K,                  EN_X,    EN_H,    EN_COMM, EN_DOT,  CMB_SLS, CMB_PIP,
