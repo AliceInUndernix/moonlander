@@ -9,15 +9,15 @@ libraries come from. This file adds the background and the history.
 
 | Path | What it is |
 |---|---|
-| `canary/keymap.c` | **Latest layout (version 104)** |
-| `canary/config.h` | Latest config (version 104): debounce, RGB, audio, combo limits |
-| `canary/rules.mk` | Latest build features (version 104): steno, mouse keys, USB endpoints |
+| `canary/keymap.c` | **Latest layout (version 105)** |
+| `canary/config.h` | Latest config (version 105): debounce, RGB, audio, combo limits |
+| `canary/rules.mk` | Latest build features (version 105): steno, mouse keys, USB endpoints |
 | `knowledge/canary/` | The first working canary keymap, kept as reference |
 | `knowledge/inspiration.md` | Link to the inspiration: https://github.com/optozorax/moonlander |
 | `build.sh` | Sets up QMK, builds and flashes (see README.md) |
 | `history/` | Every earlier numbered draft (keymap 75..86, config 71/81..86, rules 1/81..86), unchanged |
 
-`history/` stops at version 86; versions 87 to 104 are in the version history
+`history/` stops at version 86; versions 87 to 105 are in the version history
 below, and in git: up to 97 in the dotfiles repo, where the layout
 lived until 2026-11-15 (`git log -- moonlander/canary` there), and
 from then on here.
@@ -150,11 +150,14 @@ suggest them again without asking:
 - **103:** `/` moved from the number row to the bottom row under
   `a`, and `|` next to it on the right (under the right 1Sh). Their old
   number-row keys do nothing now; `/ + |` is still backslash.
-- **104 (latest):** dwm layer: Shift on a key never does an unrelated
+- **104:** dwm layer: Shift on a key never does an unrelated
   thing. Shift+Shrk/Grow move the border between stacked windows. Term
   sends Super+Shift+u and Lock Super+Shift+o (dwm moved them off
   Super+Shift+Enter and Super+Shift+l, and restart to
   Super+Ctrl+Shift+r). The number row is off.
+- **105 (latest):** dwm layer: Flt and Mono on the number row, Tile above
+  Term, Deck above STmx, new MDck (masterdeck, Super+e) above Scr, TFlt
+  on the left hand above Menu.
 - **config:** combo key count raised from 20 to 32 (by version 71); debounce
   raised to 12 ms against double letters (version 82). **rules:** unchanged in
   substance since the first numbered version (rules_1).

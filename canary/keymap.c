@@ -2,7 +2,7 @@
  * ==========================================================================
  *  ZSA Moonlander (rev B), keymap "canary"
  *  Canary letter layout, built on optozorax's keymap libraries.
- *  Version 104 (the latest; earlier drafts were numbered 75..97, and 98
+ *  Version 105 (the latest; earlier drafts were numbered 75..97, and 98
  *  was dropped).
  * ==========================================================================
  *
@@ -318,6 +318,7 @@ enum custom_keycodes {
 #define D_FLOT  DWM_MOD(KC_F)            // floating
 #define D_MONO  DWM_MOD(KC_M)            // monocle (one window fills the screen)
 #define D_DECK  DWM_MOD(KC_R)            // doubledeck
+#define D_MDCK  DWM_MOD(KC_E)            // masterdeck (version 105)
 #define D_TFLT  DWM_MOD_SFT(KC_SPC)      // float / unfloat the focused window
 #define D_STKY  DWM_MOD(KC_S)            // pin / unpin the window on its tag (Super+s;
                                          //   Shift: on every tag, Super+Shift+s)
@@ -662,9 +663,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * letters no other key here sends, so Shift on Zoom
      * (Super+Shift+Enter) does nothing. The number row is off (--): its
      * marks are Shift+digit, which would move the window to a tag.
+     * Version 105: Flt (rarely used) and Mono up on the number row, Tile
+     * above Term, Deck above STmx, the new MDck (masterdeck, Super+e)
+     * above Scr, and TFlt moved over to the left hand above Menu.
      *
-     * number   --   --   --   --   --   --   --       --   --   --   --   --   --   --
-     * top      --   Flt  Tile Deck Mono Bar  --       TFlt Stky Mst+ Mon> Mon< Mst- --
+     * number   --   Flt  Mono --   --   --   --       --   --   --   --   --   --   --
+     * top      --   TFlt Deck MDck Tile Bar  --       --   Stky Mst+ Mon> Mon< Mst- --
      * home     Lock Menu STmx Scr  Term Tmux --       --   Zoom Shrk Next Prev Grow Kill
      * bottom   Susp Tag6 Tag7 Tag8 Tag9 All                Tag5 Tag4 Tag3 Tag2 Tag1 Shot
      * lower    __   __   __   __   __   __          __   (held)
@@ -687,6 +691,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *            Plain: only on its own tag (Super+s). With Shift: on
      *            every tag (Super+Shift+s). Version 96
      *   Flt Tile Deck Mono  floating / tiled / doubledeck / monocle (Super+f t r m)
+     *   MDck     masterdeck: master windows stacked, the rest tiled (Super+e)
      *   Bar      show/hide bar (Super+b)
      *   Kill     close the window (sends Super+Shift+c itself, no Shift
      *            needed; version 91)
@@ -718,8 +723,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * work by holding the big Ctrl key too.
      */
     [L_DWM] = LAYOUT_moonlander(
-        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
-        KC_NO,   D_FLOT,  D_TILE,  D_DECK,  D_MONO,  D_BAR,   KC_NO,        D_TFLT,  D_STKY,  D_NMAI,  D_MONN,  D_MONP,  D_NMAD,  KC_NO,
+        KC_NO,   D_FLOT,  D_MONO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+        KC_NO,   D_TFLT,  D_DECK,  D_MDCK,  D_TILE,  D_BAR,   KC_NO,        KC_NO,   D_STKY,  D_NMAI,  D_MONN,  D_MONP,  D_NMAD,  KC_NO,
         D_LOCK,  D_RUN,   D_SCRT,  D_SCRN,  D_TERM,  D_TMUX,  KC_NO,        KC_NO,   D_ZOOM,  D_MSTS,  D_FOCN,  D_FOCP,  D_MSTG,  D_KILL,
         D_SUSP,  D_TAG6,  D_TAG7,  D_TAG8,  D_TAG9,  D_ALL,                 D_TAG5,  D_TAG4,  D_TAG3,  D_TAG2,  D_TAG1,  D_SHOT,
         _______, _______, _______, _______, _______, _______,               _______, _______, _______, _______, _______, _______,
