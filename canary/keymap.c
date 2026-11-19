@@ -2,7 +2,7 @@
  * ==========================================================================
  *  ZSA Moonlander (rev B), keymap "canary"
  *  Canary letter layout, built on optozorax's keymap libraries.
- *  Version 107 (the latest; earlier drafts were numbered 75..97, and 98
+ *  Version 108 (the latest; earlier drafts were numbered 75..97, and 98
  *  was dropped).
  * ==========================================================================
  *
@@ -190,6 +190,7 @@ enum Combos {
     CMB_EXC  = CMB_019,  // !
     CMB_QUE  = CMB_020,  // ?
     CMB_QT   = CMB_022,  // '
+    CMB_AST  = CMB_021,  // *
     CMB_SLS  = CMB_023,  // /  (bottom row, under a)
     CMB_PIP  = CMB_024,  // |  (bottom row, right of /)
 
@@ -441,18 +442,21 @@ const ComboWithKeycode combos[] PROGMEM = {
     CHORD(PAIR_BRACKET, CMB_LBR, CMB_RBR),   // [ + ]  -> []
 
     // --- Number row on layer 0, one key ---
-    // (~ % @ ^ # * & $ are plain keys, not combo keys.)
+    // (~ % @ ^ $ are plain keys, not combo keys.)
     CHORD(EN_PLUS, CMB_PLS),            // +
     CHORD(EN_DQUO, CMB_DQ),             // "
     CHORD(EN_EQL,  CMB_EQL),            // =
     CHORD(EN_EXCL, CMB_EXC),            // !
     CHORD(EN_QUES, CMB_QUE),            // ?
+    CHORD(EN_ASTR, CMB_AST),            // *
     CHORD(EN_QUOT, CMB_QT),             // '
     CHORD(EN_SLSH, CMB_SLS),            // /  (bottom row)
     CHORD(EN_PIPE, CMB_PIP),            // |  (bottom row)
 
     // --- Layer 0, two keys ---
     CHORD(EN_GRV,  CMB_DQ,  CMB_QT),    // " + '   -> `   (one key on each hand)
+    CHORD(EN_AMPR, CMB_DQ,  CMB_EQL),   // " + =   -> &
+    CHORD(EN_HASH, CMB_AST, CMB_QT),    // * + '   -> #   (the same keys on layer 1)
     CHORD(EN_BSLS, CMB_SLS, CMB_PIP),   // / + |   -> \   (backslash)
 
     // --- Number row on layer 0, four keys ---
@@ -468,6 +472,7 @@ const ComboWithKeycode combos[] PROGMEM = {
     // held (or right after ". ", "! ", "? ") the number-row keys are the
     // layer 1 combo keys. ' / | are the same keys on both layers.
     CHORD(EN_GRV,  CMB_SDQ,  CMB_QT),                     // " + '      -> `
+    CHORD(EN_AMPR, CMB_SDQ,  CMB_SEQL),                   // " + =      -> &
     CHORD(ELLIPSIS, CMB_SPLS, CMB_SDQ, CMB_SEQL, CMB_SEXC), // + + " + = + ! -> "... "
 };
 const uint8_t combos_size = sizeof(combos) / sizeof(ComboWithKeycode);
@@ -491,7 +496,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * LAYER 0: Canary
      *
      *          left half                              right half
-     * number   ~    +    "    =    !    &    @        ^    #    ?    *    '    %    $
+     * number   ~    +    "    =    !    @    --       --   ^    ?    *    '    %    $
      * top      _    w    l    y    p    b    --       --   z    f    o    u    :    -
      * home     1Sh  c    r    s    t    g    --       --   m    n    e    i    a    1Sh
      * bottom   --   q    j    v    d    k                 x    h    ,    .    /    |
@@ -514,12 +519,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *   Space + Red        Enter          Tab + Bksp        Escape
      *   Bksp + Alt         Delete         Ctrl + Red        Ctrl+Shift
      *   " + '              `              / + |             \  (backslash)
+     *   " + =              &              * + '             #
      *   + + " + = + !      "..."
      *   A chord belongs to its physical keys, not to what they type.
      *   No symbol is on both a key and a chord.
      */
     [L_EN] = LAYOUT_moonlander(
-        EN_TILD, CMB_PLS, CMB_DQ,  CMB_EQL, CMB_EXC, EN_AMPR, EN_AT,        EN_CIRC, EN_HASH, CMB_QUE, EN_ASTR, CMB_QT,  EN_PERC, EN_DLR,
+        EN_TILD, CMB_PLS, CMB_DQ,  CMB_EQL, CMB_EXC, EN_AT,   KC_NO,        KC_NO,   EN_CIRC, CMB_QUE, CMB_AST, CMB_QT,  EN_PERC, EN_DLR,
         EN_UNDS, EN_W,    EN_L,    EN_Y,    EN_P,    EN_B,    KC_NO,        KC_NO,   EN_Z,    EN_F,    EN_O,    EN_U,    EN_COLN, EN_MINS,
         SFT_N_O, EN_C,    EN_R,    EN_S,    EN_T,    EN_G,    KC_NO,        KC_NO,   EN_M,    EN_N,    EN_E,    EN_I,    EN_A,    SFT_N_O,
         KC_NO,   EN_Q,    EN_J,    EN_V,    EN_D,    EN_K,                  EN_X,    EN_H,    EN_COMM, EN_DOT,  CMB_SLS, CMB_PIP,
@@ -534,7 +540,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * for one key after a one-time Shift. Every letter is written out as a
      * capital (EN_S_ names). . ! ? , type the mark and a space here, and
      * . ! ? make the next letter a capital. The : key types ; (no
-     * space). The chords (` and backslash) work here too; the
+     * space). The chords (` & # and backslash) work here too; the
      * four-key ellipsis chord types "... ".
      * Everything marked _______ works as on layer 0.
      *

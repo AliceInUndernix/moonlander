@@ -72,7 +72,7 @@
 #define LANG_SWITCH_DELAY_MS 0
 
 /* --- Combos (chords) ----------------------------------------------------- */
-#define COMBO_KEYS_COUNT     32   // number of combo keys (CMB_000..CMB_031); keymap.c uses all 32
+#define COMBO_KEYS_COUNT     32   // number of combo keys (CMB_000..CMB_031); CMB_030 is free
 #define COMBO_MAX_SIZE       4    // most keys in one chord (the ellipsis chord has 4)
 #define COMBO_STACK_MAX_SIZE 5    // how many chords can be in progress at the same time
 #define COMBO_WAIT_TIME      50   // ms to wait for the other keys of a chord

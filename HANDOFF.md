@@ -9,15 +9,15 @@ libraries come from. This file adds the background and the history.
 
 | Path | What it is |
 |---|---|
-| `canary/keymap.c` | **Latest layout (version 107)** |
-| `canary/config.h` | Latest config (version 107): debounce, RGB, audio, combo limits |
-| `canary/rules.mk` | Latest build features (version 107): steno, mouse keys, USB endpoints |
+| `canary/keymap.c` | **Latest layout (version 108)** |
+| `canary/config.h` | Latest config (version 108): debounce, RGB, audio, combo limits |
+| `canary/rules.mk` | Latest build features (version 108): steno, mouse keys, USB endpoints |
 | `knowledge/canary/` | The first working canary keymap, kept as reference |
 | `knowledge/inspiration.md` | Link to the inspiration: https://github.com/optozorax/moonlander |
 | `build.sh` | Sets up QMK, builds and flashes (see README.md) |
 | `history/` | Every earlier numbered draft (keymap 75..86, config 71/81..86, rules 1/81..86), unchanged |
 
-`history/` stops at version 86; versions 87 to 107 are in the version history
+`history/` stops at version 86; versions 87 to 108 are in the version history
 below, and in git: up to 97 in the dotfiles repo, where the layout
 lived until 2026-11-15 (`git log -- moonlander/canary` there), and
 from then on here.
@@ -36,12 +36,12 @@ from then on here.
   Shift, Tab, Backspace. Big angled keys: Ctrl (left), Alt (right).
 - **Thumb chords:** Space+Red = Enter, Tab+Bksp = Escape, Bksp+Alt = Delete,
   Ctrl+Red = Ctrl+Shift.
-- **Number row is symbols**: `~ + " = ! & @` left, `^ # ? * ' % $`
+- **Number row is symbols**: `~ + " = ! @` left, `^ ? * ' % $`
   right; `. ,` are on the bottom row under `e i`. `. ! ? , :` type just
   the mark; with Shift, `. ! ?` type the mark, a space and capitalise the
   next letter, `,` adds a space, and `:` gives a plain `;`. Chords: `" + '`
-  = `` ` ``, `/ + |` = backslash, `+ " = !` = ellipsis ("..." and, with
-  Shift, "... ").
+  = `` ` ``, `" + =` = `&`, `* + '` = `#`, `/ + |` = backslash,
+  `+ " = !` = ellipsis ("..." and, with Shift, "... ").
 
 | # | Layer | How to reach it | Thumb LED colour |
 |---|---|---|---|
@@ -165,8 +165,11 @@ suggest them again without asking:
   chords with no key of their own are left: `` ` `` (`" + '`), backslash
   and the ellipsis; `& # $ %` are keys now. Bracket pairs put the cursor
   between the brackets. A chord belongs to its physical keys.
-- **107 (latest):** `%` and `&` swapped: `&` on the left inner index key,
+- **107:** `%` and `&` swapped: `&` on the left inner index key,
   `%` on the right number-row key above the pinky column.
+- **108 (latest):** `&` and `#` are chords again: `&` = `" + =`, `#` =
+  `* + '`. `@` moved to the old `&` key and `^` to the old `#` key, so
+  the innermost number-row key on each hand does nothing.
 - **config:** combo key count raised from 20 to 32 (by version 71); debounce
   raised to 12 ms against double letters (version 82). **rules:** unchanged in
   substance since the first numbered version (rules_1).
